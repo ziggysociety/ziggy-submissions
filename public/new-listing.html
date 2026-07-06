@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>New product listing · ZIGGY SOCIETY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="logo.svg" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img src="logo.svg" alt="ZIGGY Society" />
+      <div class="name">Ziggy Society</div>
+    </div>
+    <h1>New product listing</h1>
+    <p class="lede">Tell us everything about your product and we'll create the listing for you.</p>
+
+    <form id="ziggy-form" data-endpoint="/api/submit-new" novalidate>
+
+      <div class="section-label">Brand &amp; contact</div>
+      <div class="grid2">
+        <div class="field">
+          <label>Brand name <span class="req">*</span></label>
+          <input type="text" name="brandName" required />
+        </div>
+        <div class="field">
+          <label>Contact name <span class="req">*</span></label>
+          <input type="text" name="contactName" required />
+        </div>
+      </div>
+      <div class="field">
+        <label>Contact email <span class="req">*</span></label>
+        <input type="email" name="contactEmail" required />
+      </div>
+
+      <div class="section-label">Product details</div>
+      <div class="grid2">
+        <div class="field">
+          <label>Product name <span class="req">*</span></label>
+          <input type="text" name="productName" required />
+        </div>
+        <div class="field">
+          <label>Product category</label>
+          <select name="productCategory">
+            <option value="">Select…</option>
+            <option>Jewellery</option>
+            <option>Clothing</option>
+            <option>Accessories</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Product description in your own words</label>
+        <textarea name="description"></textarea>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Materials / fabric</label>
+          <input type="text" name="materials" />
+        </div>
+        <div class="field">
+          <label>Colour(s) available</label>
+          <input type="text" name="colours" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Available sizes / variants</label>
+        <textarea name="sizes"></textarea>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Price RRP (specify NZD or AUD)</label>
+          <input type="text" name="price" placeholder="e.g. 49.00 NZD" />
+        </div>
+        <div class="field">
+          <label>Stock quantity available</label>
+          <input type="number" name="stock" min="0" />
+        </div>
+      </div>
+      <div class="field">
+        <label>SKU / product code (if applicable)</label>
+        <input type="text" name="sku" />
+      </div>
+
+      <div class="section-label">Photos</div>
+      <div class="field">
+        <label>Do you have your own product photos to spec?</label>
+        <select name="hasPhotos">
+          <option value="">Select…</option>
+          <option>Yes, I'll upload</option>
+          <option>No, please shoot for me</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Upload photos</label>
+        <p class="helper">Minimum two angles, plain background, front-on shots, natural light, high-res, true-to-colour, no filters.</p>
+        <label class="dropzone" id="dropzone">
+          <span id="dropzone-text">Tap to add photos, or drag them here</span>
+          <input type="file" id="photos" accept="image/*" multiple />
+        </label>
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+      <div class="field">
+        <label>Shipping notes (if sending products for us to shoot)</label>
+        <textarea name="shippingNotes"></textarea>
+      </div>
+
+      <div class="section-label">Story &amp; positioning</div>
+      <div class="field">
+        <label>Any ethical or sustainability details to highlight?</label>
+        <textarea name="ethics"></textarea>
+      </div>
+
+      <div class="section-label">Logistics</div>
+      <div class="grid2">
+        <div class="field">
+          <label>Where will orders ship from?</label>
+          <input type="text" name="shipFrom" />
+        </div>
+        <div class="field">
+          <label>Estimated dispatch time</label>
+          <input type="text" name="dispatchTime" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Shipping method / carrier used</label>
+        <input type="text" name="carrier" />
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn" id="submitBtn">Submit product</button>
+        <a class="back" href="index.html">Back</a>
+      </div>
+      <div class="status" id="status" role="status"></div>
+    </form>
+
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

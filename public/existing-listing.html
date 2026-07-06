@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quick submission · ZIGGY SOCIETY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="logo.svg" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img src="logo.svg" alt="ZIGGY Society" />
+      <div class="name">Ziggy Society</div>
+    </div>
+    <h1>Quick submission</h1>
+    <p class="lede">Already selling this on your own website? Give us the essentials and we'll build the listing from your site.</p>
+
+    <form id="ziggy-form" data-endpoint="/api/submit-existing" novalidate>
+      <div class="field">
+        <label>Brand name <span class="req">*</span></label>
+        <input type="text" name="brandName" required />
+      </div>
+      <div class="field">
+        <label>Product link to your site <span class="req">*</span></label>
+        <input type="url" name="productLink" placeholder="https://…" required />
+      </div>
+      <div class="field">
+        <label>Upload photos <span class="req">*</span></label>
+        <p class="helper">Minimum two angles, plain background, front-on shots, natural light, high-res, true-to-colour, no filters.</p>
+        <label class="dropzone" id="dropzone">
+          <span id="dropzone-text">Tap to add photos, or drag them here</span>
+          <input type="file" id="photos" accept="image/*" multiple />
+        </label>
+        <div class="thumbs" id="thumbs"></div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn" id="submitBtn">Submit product</button>
+        <a class="back" href="index.html">Back</a>
+      </div>
+      <div class="status" id="status" role="status"></div>
+    </form>
+
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

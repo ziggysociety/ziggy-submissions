@@ -1,0 +1,7 @@
+{
+  "name": "ziggy-submissions",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ZIGGY Society product submission portal — branded forms that create Shopify draft products and ClickUp tasks.",
+  "engines": { "node": ">=18" }
+}
