@@ -20,22 +20,132 @@
     <p class="lede">Already selling this on your own website? Give us the essentials and we'll build the listing from your site.</p>
 
     <form id="ziggy-form" data-endpoint="/api/submit-existing" novalidate>
-      <div class="field">
-        <label>Brand name <span class="req">*</span></label>
-        <input type="text" name="brandName" required />
+      <div class="grid2">
+        <div class="field">
+          <label>Brand name <span class="req">*</span></label>
+          <input type="text" name="brandName" required />
+        </div>
+        <div class="field">
+          <label>Contact email <span class="req">*</span></label>
+          <input type="email" name="contactEmail" required />
+        </div>
       </div>
       <div class="field">
         <label>Product link to your site <span class="req">*</span></label>
-        <input type="url" name="productLink" placeholder="https://…" required />
+        <p class="helper">Paste the product page link — we'll pull the title, description, images, price and SKU straight from it.</p>
+        <input type="url" name="productLink" placeholder="https://yourstore.com/products/…" required />
       </div>
       <div class="field">
-        <label>Upload photos <span class="req">*</span></label>
-        <p class="helper">Minimum two angles, plain background, front-on shots, natural light, high-res, true-to-colour, no filters.</p>
-        <label class="dropzone" id="dropzone">
-          <span id="dropzone-text">Tap to add photos, or drag them here</span>
-          <input type="file" id="photos" accept="image/*" multiple />
+        <label>Does this come in multiple sizes / variants?</label>
+        <select name="hasVariants" id="hasVariants">
+          <option value="No">No — just one</option>
+          <option value="Yes">Yes — multiple sizes / variants</option>
+        </select>
+        <p class="helper">Different <em>colours</em> should be submitted as separate products.</p>
+      </div>
+
+      <div class="field" id="singleSkuField">
+        <label>SKU / product code</label>
+        <p class="helper">We pull this from your link automatically. Check it's right, or type it in to override.</p>
+        <input type="text" name="sku" id="sku" />
+      </div>
+
+      <div class="field" id="variantsField" hidden>
+        <label>Sizes / variants — each needs its own SKU <span class="req">*</span></label>
+        <p class="helper">Add each size or variant and paste the matching SKU. Stock syncs per SKU, so each one must be unique.</p>
+        <div class="variants-wrap">
+          <div class="varhead"><span>Variant / size</span><span>SKU</span><span></span></div>
+          <div id="variantRows">
+            <div class="varrow">
+              <input type="text" class="v-name" placeholder="e.g. Small" />
+              <input type="text" class="v-sku" placeholder="SKU for this size" />
+              <button type="button" class="var-remove" aria-label="Remove this variant" title="Remove">&minus;</button>
+            </div>
+          </div>
+          <button type="button" class="btn-secondary" id="addVariant">+ Add another</button>
+        </div>
+      </div>
+
+      <div class="specguide">
+        <strong>We grab your listing text automatically — but please upload high-res photos</strong>
+        <p>Website images are often too small, so add high-resolution originals: plain clear background, natural light, true-to-colour, sharp focus, no filters.</p>
+        <p class="angles">A few angles: <span class="angle">Front</span><span class="angle">Back</span><span class="angle">Side</span><span class="angle">Detail close-up</span></p>
+        <span class="snote">Everything else (title, description, price, SKU) is pulled from your link.</span>
+      </div>
+
+      <div class="field">
+        <label>Upload product photos <span class="req">*</span></label>
+        <p class="helper">High-resolution originals — at least 2–3 angles, clear background.</p>
+        <div class="upload" data-bucket="photos">
+          <label class="dropzone">
+            <span class="dropzone-text">Tap to add photos, or drag them here</span>
+            <input type="file" accept="image/*" multiple />
+          </label>
+          <div class="thumbs"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Lifestyle / campaign photos <span class="optional">(optional)</span></label>
+        <p class="helper">Any organic, UGC or campaign-style shots — worn, styled or in context.</p>
+        <div class="upload" data-bucket="lifestyle">
+          <label class="dropzone">
+            <span class="dropzone-text">Tap to add lifestyle photos</span>
+            <input type="file" accept="image/*" multiple />
+          </label>
+          <div class="thumbs"></div>
+        </div>
+      </div>
+
+      <div class="section-label">Shipping</div>
+      <div class="specguide">
+        <strong>How shipping works</strong>
+        <p>We offer customers <strong>free shipping</strong> — so build your postage cost into your product price. You pack and post each order yourself, always with <strong>tracked</strong> shipping.</p>
+        <p>Dispatch within <strong>3 business days</strong> — or your stated timeframe if the item is made to order. Add the tracking number when you fulfil (that's what sends the customer's shipping email).</p>
+      </div>
+
+      <div class="grid2">
+        <div class="field">
+          <label>Is this item made to order?</label>
+          <select name="madeToOrder" id="madeToOrder">
+            <option value="No">No — ready to ship</option>
+            <option value="Yes">Yes — made once ordered</option>
+          </select>
+        </div>
+        <div class="field" id="turnaroundField" hidden>
+          <label>Turnaround time <span class="req">*</span></label>
+          <input type="text" name="turnaround" id="turnaround" placeholder="e.g. 2–3 weeks" />
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Ships from <span class="req">*</span></label>
+          <input type="text" name="shipFrom" placeholder="e.g. Auckland, NZ" required />
+        </div>
+        <div class="field">
+          <label>Ships to</label>
+          <select name="shipsTo">
+            <option value="Domestic only">Within New Zealand only</option>
+            <option value="NZ + Australia">New Zealand + Australia</option>
+            <option value="International">International</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Typical dispatch time <span class="optional">(for in-stock items)</span></label>
+          <input type="text" name="dispatchTime" placeholder="e.g. 1–2 business days" />
+        </div>
+        <div class="field">
+          <label>Your typical postage cost per order</label>
+          <input type="text" name="postageCost" placeholder="e.g. 8.50 NZD" />
+        </div>
+      </div>
+      <div class="field">
+        <label class="check">
+          <input type="checkbox" name="tracked" value="Yes" required />
+          <span>I confirm every order will be sent with <strong>tracked</strong> shipping. <span class="req">*</span></span>
         </label>
-        <div class="thumbs" id="thumbs"></div>
       </div>
 
       <div class="btn-row">

@@ -4,6 +4,7 @@
 
 const { createDraftProduct } = require('../lib/shopify');
 const { createTask, attachPhotos } = require('../lib/clickup');
+const { generateSku } = require('../lib/sku');
 
 function esc(s) { return String(s || '').replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c])); }
 function row(label, val) { return val ? `**${label}:** ${val}\n` : ''; }
@@ -15,10 +16,18 @@ module.exports = async (req, res) => {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
     const f = body.fields || {};
     const photos = body.photos || [];
+    const lifestyle = body.lifestyle || [];
+    const variants = Array.isArray(body.variants) ? body.variants : [];
 
     if (!f.brandName || !f.contactEmail || !f.productName) {
       res.status(400).send('Missing required fields.'); return;
     }
+
+    // SKU is mandatory — if the vendor doesn't have one, generate it for them.
+    const skuProvided = Boolean(f.sku);
+    const sku = f.sku || generateSku(f.brandName);
+    const madeToOrder = /yes/i.test(f.madeToOrder || '');
+    const turnaround = madeToOrder ? (f.turnaround || '') : '';
 
     // 1) Shopify draft product (optional — skipped if Shopify env not set)
     let shopify = null;
@@ -30,6 +39,7 @@ module.exports = async (req, res) => {
         f.colours   ? `<li><strong>Colours:</strong> ${esc(f.colours)}</li>` : '',
         f.sizes     ? `<li><strong>Sizes/variants:</strong> ${esc(f.sizes)}</li>` : '',
         f.ethics    ? `<li><strong>Ethical/sustainability:</strong> ${esc(f.ethics)}</li>` : '',
+        madeToOrder ? `<li><strong>Made to order</strong> — turnaround: ${esc(turnaround || 'TBC')}</li>` : '',
         '</ul>'
       ].join('');
 
@@ -38,8 +48,11 @@ module.exports = async (req, res) => {
         descriptionHtml,
         vendor: f.brandName,
         productType: f.productCategory,
-        tags: ['ziggy-submission', f.brandName, f.productCategory].filter(Boolean),
-        price: f.price
+        tags: ['ziggy-submission', f.brandName, f.productCategory, madeToOrder ? 'made-to-order' : '']
+          .filter(Boolean),
+        price: f.price,
+        sku,
+        variants
       });
     } catch (e) {
       // Don't fail the whole submission if Shopify errors — log it into the task.
@@ -58,13 +71,20 @@ module.exports = async (req, res) => {
       row('Sizes/variants', f.sizes) +
       row('Price RRP', f.price) +
       row('Stock qty', f.stock) +
-      row('SKU', f.sku) +
+      (variants.length
+        ? `**Sizes / variants (each its own SKU):**\n` +
+          variants.map(v => `- ${v.name} · SKU ${v.sku}`).join('\n') + '\n'
+        : row('SKU', sku + (skuProvided ? '' : ' _(auto-generated)_'))) +
+      row('Made to order', madeToOrder ? `Yes — turnaround: ${turnaround || 'TBC'}` : 'No') +
       row('Ethical/sustainability', f.ethics) +
       '\n' +
       row('Has own photos?', f.hasPhotos) +
       row('Shipping notes (for shoot)', f.shippingNotes) +
       row('Ships from', f.shipFrom) +
+      row('Ships to', f.shipsTo) +
       row('Dispatch time', f.dispatchTime) +
+      row('Typical postage cost', f.postageCost) +
+      row('Tracked shipping?', f.tracked) +
       row('Carrier', f.carrier) +
       '\n' +
       (shopify && shopify.adminUrl ? `**Shopify draft:** ${shopify.adminUrl}\n` : '') +
@@ -77,6 +97,7 @@ module.exports = async (req, res) => {
     });
 
     await attachPhotos(task.id, photos);
+    await attachPhotos(task.id, lifestyle, 'LIFESTYLE-');
 
     res.status(200).json({ ok: true, taskUrl: task.url, shopify });
   } catch (err) {

@@ -57,7 +57,7 @@ h1 {
   font-size: clamp(30px, 6vw, 46px);
   line-height: 1.1;
   letter-spacing: -0.01em;
-  color: var(--ink);
+  color: var(--olive);
   text-align: center;
   margin: 18px 0 10px;
 }
@@ -158,13 +158,78 @@ input:focus, select:focus, textarea:focus {
   border-radius: 10px;
   padding: 15px 28px;
   cursor: pointer;
-  background: var(--olive);
+  background: #2f4a2f;
   color: var(--paper);
-  transition: background .15s ease;
+  box-shadow: 0 6px 18px rgba(47,74,47,.30);
+  transition: background .15s ease, transform .1s ease;
 }
-.btn:hover { background: var(--ink); }
+.btn:hover { background: #24391f; transform: translateY(-1px); }
 .btn[disabled] { opacity: .55; cursor: default; }
 .btn-row { margin-top: 30px; display: flex; align-items: center; gap: 16px; }
+
+/* SKU row: input + generate button */
+.sku-row { display: flex; gap: 10px; align-items: stretch; }
+.sku-row input { flex: 1; }
+.btn-secondary {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 15px;
+  border: 1px solid var(--olive);
+  border-radius: 10px;
+  padding: 0 18px;
+  cursor: pointer;
+  background: var(--white);
+  color: var(--olive);
+  white-space: nowrap;
+  transition: background .15s ease, color .15s ease;
+}
+.btn-secondary:hover { background: var(--olive); color: var(--paper); }
+
+.optional { font-family: var(--font-head); font-weight: normal; font-size: 13px; color: #8a8b76; }
+
+/* Inline confirmation checkbox */
+.check { display: flex; align-items: flex-start; gap: 10px; font-family: var(--font-body); font-weight: normal; font-size: 16px; color: var(--ink); cursor: pointer; margin: 0; }
+.check input { width: 20px; height: 20px; flex: 0 0 auto; margin-top: 2px; accent-color: var(--olive); }
+
+/* Variant repeater */
+.variants-wrap { margin: 8px 0 4px; }
+.varhead, .varrow { display: grid; grid-template-columns: 1fr 1fr 34px; gap: 10px; align-items: center; }
+.varhead { font-family: var(--font-head); font-size: 12px; letter-spacing: .04em; color: #8a8b76; margin-bottom: 6px; }
+.varrow { margin-bottom: 9px; }
+.var-remove {
+  width: 32px; height: 32px; padding: 0;
+  border: 1px solid #d7d8c8; background: var(--white); color: #b4553f;
+  border-radius: 50%; font-size: 22px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .12s ease, border-color .12s ease;
+}
+.var-remove:hover { background: #f6e9e6; border-color: #b4553f; }
+.add-variant { margin-top: 4px; }
+
+/* Photo spec guide — kept simple */
+.specguide {
+  background: var(--white);
+  border: 1px solid #e0e1d3;
+  border-left: 3px solid var(--sage);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin: 12px 0 22px;
+  font-size: 16px;
+}
+.specguide strong { font-family: var(--font-head); font-size: 14px; color: var(--olive); display: block; margin-bottom: 6px; }
+.specguide p { margin: 6px 0; }
+.specguide .angles { margin-top: 8px; }
+.specguide .angle {
+  display: inline-block;
+  background: var(--sage-tint);
+  border-radius: 6px;
+  padding: 2px 9px;
+  font-family: var(--font-head);
+  font-size: 13px;
+  color: var(--olive);
+  margin: 2px 4px 2px 0;
+}
+.specguide .snote { display: block; margin-top: 8px; font-size: 14px; color: #6f7060; font-style: italic; }
 .back { color: var(--olive); text-decoration: none; font-family: var(--font-head); font-size: 15px; }
 .back:hover { text-decoration: underline; }
 
