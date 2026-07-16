@@ -58,7 +58,8 @@ module.exports = async (req, res) => {
         price: fetched.ok ? fetched.price : undefined,
         sku,
         imageUrls: fetched.ok ? fetched.imageUrls : [],
-        variants
+        variants,
+        vendorEmail: f.contactEmail
       });
     } catch (e) {
       shopify = { error: e.message };

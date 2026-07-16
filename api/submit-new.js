@@ -52,7 +52,8 @@ module.exports = async (req, res) => {
           .filter(Boolean),
         price: f.price,
         sku,
-        variants
+        variants,
+        vendorEmail: f.contactEmail
       });
     } catch (e) {
       // Don't fail the whole submission if Shopify errors — log it into the task.
