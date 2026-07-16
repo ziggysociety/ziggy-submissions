@@ -99,7 +99,8 @@ module.exports = async (req, res) => {
     const task = await createTask({
       name: `${f.productName} — ${f.brandName}`,
       markdown: md,
-      status: 'Submitted'
+      status: 'Submitted',
+      assignees: [222060393]   // Anna — assigning emails her on every submission
     });
 
     await attachPhotos(task.id, photos);

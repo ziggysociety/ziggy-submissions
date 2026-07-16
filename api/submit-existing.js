@@ -91,7 +91,8 @@ module.exports = async (req, res) => {
     const task = await createTask({
       name: `${(fetched.ok && fetched.title) || f.brandName} — ${f.brandName} (website)`,
       markdown: md,
-      status: 'Submitted'
+      status: 'Submitted',
+      assignees: [222060393]   // Anna — assigning emails her on every submission
     });
 
     await attachPhotos(task.id, photos);
