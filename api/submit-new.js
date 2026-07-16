@@ -1,13 +1,18 @@
 // POST /api/submit-new
 // New listing (full details): creates a Shopify DRAFT product (if configured)
 // + a ClickUp task with all details and photos attached.
+// Pricing = retail (NZD) + shipping (NZD). Vendor email is looked up from the
+// brand's onboarding record (Brands list), matched by brand name.
 
 const { createDraftProduct } = require('../lib/shopify');
 const { createTask, attachPhotos } = require('../lib/clickup');
 const { generateSku } = require('../lib/sku');
+const { getBrandEmail } = require('../lib/brands');
 
 function esc(s) { return String(s || '').replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c])); }
 function row(label, val) { return val ? `**${label}:** ${val}\n` : ''; }
+function num(v) { const m = String(v || '').replace(',', '').match(/[\d.]+/); return m ? parseFloat(m[0]) : NaN; }
+function money(v) { return isNaN(v) ? 0 : v; }
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') { res.status(405).send('Method not allowed'); return; }
@@ -19,9 +24,18 @@ module.exports = async (req, res) => {
     const lifestyle = body.lifestyle || [];
     const variants = Array.isArray(body.variants) ? body.variants : [];
 
-    if (!f.brandName || !f.contactEmail || !f.productName) {
-      res.status(400).send('Missing required fields.'); return;
+    if (!f.brandName || !f.productName) {
+      res.status(400).send('Missing required fields (brand name and product name).'); return;
     }
+
+    // Pull the vendor's email from their onboarding record (matched by brand).
+    const vendorEmail = await getBrandEmail(f.brandName);
+
+    // Price = retail + shipping (both NZD). Vendors bake postage in via shipping.
+    const retail = money(num(f.retailPrice));
+    const shipping = money(num(f.shipping));
+    const totalPrice = (retail + shipping).toFixed(2);
+    const payout = (Number(totalPrice) * 0.85).toFixed(2);
 
     // SKU is mandatory — if the vendor doesn't have one, generate it for them.
     const skuProvided = Boolean(f.sku);
@@ -37,7 +51,6 @@ module.exports = async (req, res) => {
         '<ul>',
         f.materials ? `<li><strong>Materials/fabric:</strong> ${esc(f.materials)}</li>` : '',
         f.colours   ? `<li><strong>Colours:</strong> ${esc(f.colours)}</li>` : '',
-        f.sizes     ? `<li><strong>Sizes/variants:</strong> ${esc(f.sizes)}</li>` : '',
         f.ethics    ? `<li><strong>Ethical/sustainability:</strong> ${esc(f.ethics)}</li>` : '',
         madeToOrder ? `<li><strong>Made to order</strong> — turnaround: ${esc(turnaround || 'TBC')}</li>` : '',
         '</ul>'
@@ -50,13 +63,12 @@ module.exports = async (req, res) => {
         productType: f.productCategory,
         tags: ['ziggy-submission', f.brandName, f.productCategory, madeToOrder ? 'made-to-order' : '']
           .filter(Boolean),
-        price: f.price,
+        price: totalPrice,
         sku,
         variants,
-        vendorEmail: f.contactEmail
+        vendorEmail
       });
     } catch (e) {
-      // Don't fail the whole submission if Shopify errors — log it into the task.
       shopify = { error: e.message };
     }
 
@@ -64,13 +76,12 @@ module.exports = async (req, res) => {
     const md =
       row('Brand', f.brandName) +
       row('Category', f.productCategory) +
-      row('Contact', [f.contactName, f.contactEmail].filter(Boolean).join(' · ')) +
+      row('Vendor email', vendorEmail || '_not found — has this brand onboarded?_') +
       '\n' +
       row('Description', f.description) +
       row('Materials/fabric', f.materials) +
       row('Colours', f.colours) +
-      row('Sizes/variants', f.sizes) +
-      row('Price RRP', f.price) +
+      `**Pricing (NZD):** retail ${retail.toFixed(2)} + shipping ${shipping.toFixed(2)} = **${totalPrice}** (est. payout after 15%: ${payout})\n` +
       row('Stock qty', f.stock) +
       (variants.length
         ? `**Sizes / variants (each its own SKU):**\n` +
@@ -79,14 +90,8 @@ module.exports = async (req, res) => {
       row('Made to order', madeToOrder ? `Yes — turnaround: ${turnaround || 'TBC'}` : 'No') +
       row('Ethical/sustainability', f.ethics) +
       '\n' +
-      row('Has own photos?', f.hasPhotos) +
-      row('Shipping notes (for shoot)', f.shippingNotes) +
       row('Ships from', f.shipFrom) +
-      row('Ships to', f.shipsTo) +
-      row('Dispatch time', f.dispatchTime) +
-      row('Typical postage cost', f.postageCost) +
       row('Tracked shipping?', f.tracked) +
-      row('Carrier', f.carrier) +
       '\n' +
       (shopify && shopify.adminUrl ? `**Shopify draft:** ${shopify.adminUrl}\n` : '') +
       (shopify && shopify.error ? `_Shopify draft not created: ${shopify.error}_\n` : '');

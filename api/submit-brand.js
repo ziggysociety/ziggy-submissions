@@ -46,16 +46,11 @@ module.exports = async (req, res) => {
       row('Instagram / socials', f.socials) +
       `\n## Brand\n\n` +
       row('Tagline / bio', f.bio) +
-      row('Brand story', f.story) +
-      row('Values / ethics / sustainability', f.values) +
       row('Production method & materials', f.production) +
       row('Made to order / ready made', f.madeReady) +
       row('Currently sells on', f.storePlatform) +
-      `\n## ZIGGY certified criteria\n\n` +
-      row('How they meet the criteria', f.ziggyCriteria) +
-      `\n## Payouts\n\n` +
-      row('Preferred payout method', f.payoutMethod) +
-      row('Payout details', f.payoutDetails) +
+      `\n## ZIGGY Certified — how they meet the five criteria\n\n` +
+      row('Their answer', f.ziggyCriteria) +
       `\n---\n_Submitted via the ZIGGY brand onboarding form._`;
 
     const customFields = [
