@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brand onboarding · ZIGGY SOCIETY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="logo.svg" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img src="logo.svg" alt="ZIGGY Society" />
+      <div class="name">Ziggy Society</div>
+    </div>
+    <h1>Brand onboarding</h1>
+    <p class="lede">Welcome to ZIGGY. Tell us about your brand so we can set you up as a vendor. This creates your brand profile in our system.</p>
+
+    <form id="brand-form" novalidate>
+
+      <div class="section-label">Brand &amp; contact</div>
+      <div class="grid2">
+        <div class="field">
+          <label>Brand name <span class="req">*</span></label>
+          <input type="text" name="brandName" required />
+        </div>
+        <div class="field">
+          <label>Legal / trading name</label>
+          <p class="helper">The name your business is registered under, if different.</p>
+          <input type="text" name="legalName" />
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Business structure</label>
+          <select name="businessStructure">
+            <option value="">Select…</option>
+            <option>Sole trader</option>
+            <option>Partnership</option>
+            <option>Limited company</option>
+            <option>Not yet registered</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Location (city, country) <span class="req">*</span></label>
+          <input type="text" name="location" placeholder="e.g. Auckland, New Zealand" required />
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Contact name <span class="req">*</span></label>
+          <input type="text" name="contactName" required />
+        </div>
+        <div class="field">
+          <label>Contact email <span class="req">*</span></label>
+          <input type="email" name="contactEmail" required />
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Phone <span class="optional">(optional)</span></label>
+          <input type="text" name="phone" />
+        </div>
+        <div class="field">
+          <label>Website</label>
+          <input type="url" name="website" placeholder="https://…" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Instagram / socials</label>
+        <input type="text" name="socials" placeholder="@yourbrand, TikTok, etc." />
+      </div>
+      <div class="field">
+        <label>Brand logo</label>
+        <p class="helper">High-res PNG or JPG, ideally on a transparent or plain background.</p>
+        <div class="upload" data-bucket="logo">
+          <label class="dropzone">
+            <span class="dropzone-text">Tap to add your logo</span>
+            <input type="file" accept="image/*" />
+          </label>
+          <div class="thumbs"></div>
+        </div>
+      </div>
+
+      <div class="section-label">Your brand</div>
+      <div class="field">
+        <label>Tagline / short bio</label>
+        <input type="text" name="bio" placeholder="One line that sums up your brand" />
+      </div>
+      <div class="field">
+        <label>Brand story</label>
+        <p class="helper">Who you are, how you started, what makes you you.</p>
+        <textarea name="story"></textarea>
+      </div>
+      <div class="field">
+        <label>Values / ethics / sustainability</label>
+        <p class="helper">How you make things responsibly — materials, labour, packaging, community.</p>
+        <textarea name="values"></textarea>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Production method &amp; materials</label>
+          <input type="text" name="production" placeholder="e.g. hand-made, small-batch, recycled silver" />
+        </div>
+        <div class="field">
+          <label>Made to order or ready made?</label>
+          <select name="madeReady">
+            <option value="">Select…</option>
+            <option>Made to Order</option>
+            <option>Ready Made</option>
+            <option>Both</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Where do you currently sell?</label>
+        <input type="text" name="storePlatform" placeholder="e.g. own Shopify site, markets, Instagram only" />
+      </div>
+
+      <div class="section-label">ZIGGY certified criteria</div>
+      <div class="specguide">
+        <strong>Why we ask</strong>
+        <p>ZIGGY curates brands that are made with care. Tell us how you meet our values — for example: independently owned, handmade or small-batch, ethically made, sustainable or recycled materials, locally made, or cruelty-free.</p>
+      </div>
+      <div class="field">
+        <label>How does your brand meet ZIGGY's certified criteria? <span class="req">*</span></label>
+        <textarea name="ziggyCriteria" required></textarea>
+      </div>
+
+      <div class="section-label">Payouts</div>
+      <div class="specguide">
+        <strong>How you get paid</strong>
+        <p>Sales are paid out fortnightly, with ZIGGY's commission already deducted. Add your preferred payout method below.</p>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Preferred payout method</label>
+          <select name="payoutMethod">
+            <option value="">Select…</option>
+            <option>Bank transfer</option>
+            <option>PayPal</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Payout details</label>
+          <p class="helper">Account name + number, or PayPal email.</p>
+          <input type="text" name="payoutDetails" />
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn" id="submitBtn">Submit brand</button>
+        <a class="back" href="index.html">Back</a>
+      </div>
+      <div class="status" id="status" role="status"></div>
+    </form>
+  </div>
+
+  <script>
+    (function () {
+      const form = document.getElementById('brand-form');
+      const statusEl = document.getElementById('status');
+      const zone = form.querySelector('.upload[data-bucket="logo"]');
+      const fileInput = zone.querySelector('input[type="file"]');
+      const thumbs = zone.querySelector('.thumbs');
+      let logoFiles = [];
+
+      function readAsDataUrl(file) {
+        return new Promise((resolve) => {
+          const r = new FileReader();
+          r.onload = () => resolve({ name: file.name, dataUrl: r.result });
+          r.readAsDataURL(file);
+        });
+      }
+
+      fileInput.addEventListener('change', async () => {
+        logoFiles = [];
+        thumbs.innerHTML = '';
+        for (const file of fileInput.files) {
+          const item = await readAsDataUrl(file);
+          logoFiles.push(item);
+          const img = document.createElement('img');
+          img.src = item.dataUrl;
+          img.className = 'thumb';
+          thumbs.appendChild(img);
+        }
+        const txt = zone.querySelector('.dropzone-text');
+        if (txt) txt.textContent = logoFiles.length ? (logoFiles.length + ' logo added — tap to change') : 'Tap to add your logo';
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fields = {};
+        new FormData(form).forEach((v, k) => { fields[k] = v; });
+
+        if (!fields.brandName || !fields.contactEmail || !fields.location || !fields.ziggyCriteria) {
+          statusEl.textContent = 'Please fill in the required fields.';
+          statusEl.className = 'status error';
+          return;
+        }
+
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        statusEl.textContent = 'Submitting…';
+        statusEl.className = 'status';
+
+        try {
+          const res = await fetch('/api/submit-brand', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ fields, logo: logoFiles })
+          });
+          if (!res.ok) throw new Error(await res.text());
+          window.location.href = 'thank-you.html';
+        } catch (err) {
+          statusEl.textContent = 'Sorry — ' + err.message;
+          statusEl.className = 'status error';
+          btn.disabled = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
