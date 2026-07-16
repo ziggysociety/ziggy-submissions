@@ -17,24 +17,15 @@
       <div class="name">Ziggy Society</div>
     </div>
     <h1>New product listing</h1>
-    <p class="lede">Tell us everything about your product and we'll create the listing for you.</p>
+    <p class="lede">Tell us everything about your product and we'll create the listing for you. Make sure you've completed brand onboarding first — we'll match this to your brand.</p>
 
     <form id="ziggy-form" data-endpoint="/api/submit-new" novalidate>
 
-      <div class="section-label">Brand &amp; contact</div>
-      <div class="grid2">
-        <div class="field">
-          <label>Brand name <span class="req">*</span></label>
-          <input type="text" name="brandName" required />
-        </div>
-        <div class="field">
-          <label>Contact name <span class="req">*</span></label>
-          <input type="text" name="contactName" required />
-        </div>
-      </div>
+      <div class="section-label">Brand</div>
       <div class="field">
-        <label>Contact email <span class="req">*</span></label>
-        <input type="email" name="contactEmail" required />
+        <label>Brand name <span class="req">*</span></label>
+        <p class="helper">Use the exact brand name you onboarded with — that's how we link this product to you.</p>
+        <input type="text" name="brandName" required />
       </div>
 
       <div class="section-label">Product details</div>
@@ -67,20 +58,36 @@
           <input type="text" name="colours" />
         </div>
       </div>
-      <div class="field">
-        <label>Available sizes / variants</label>
-        <textarea name="sizes"></textarea>
-      </div>
       <div class="grid2">
-        <div class="field">
-          <label>Price RRP (specify NZD or AUD)</label>
-          <input type="text" name="price" placeholder="e.g. 49.00 NZD" />
-        </div>
         <div class="field">
           <label>Stock quantity available</label>
           <input type="number" name="stock" min="0" />
         </div>
+        <div class="field"></div>
       </div>
+
+      <div class="section-label">Price (NZD)</div>
+      <div class="specguide">
+        <strong>All prices in NZD</strong>
+        <p>Enter your item's retail price and the postage to add — we'll show your ZIGGY listing price. If your own site is in AUD, convert to NZD here.</p>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label>Retail price — item only (NZD) <span class="req">*</span></label>
+          <input type="text" name="retailPrice" id="retailPrice" inputmode="decimal" placeholder="e.g. 49.00" required />
+        </div>
+        <div class="field">
+          <label>Shipping to add (NZD) <span class="req">*</span></label>
+          <p class="helper">Your postage, averaged for NZ + AU.</p>
+          <input type="text" name="shipping" id="shipping" inputmode="decimal" placeholder="e.g. 8.50" required />
+        </div>
+      </div>
+      <div class="pricebox" id="priceBox" hidden>
+        <span>ZIGGY listing price: <strong id="zPrice">—</strong> NZD</span>
+        <span class="pnote">Your payout after 15%: <strong id="zPayout">—</strong> NZD</span>
+      </div>
+
+      <div class="section-label">Sizes &amp; SKU</div>
       <div class="field">
         <label>Does this come in multiple sizes / variants?</label>
         <select name="hasVariants" id="hasVariants">
@@ -92,7 +99,7 @@
 
       <div class="field" id="singleSkuField">
         <label>SKU / product code <span class="req">*</span></label>
-        <p class="helper">Your unique code for this product. Don't have one? Tap “Generate” and we'll create one for you.</p>
+        <p class="helper">If you sell this on your own store, <strong>copy the exact SKU</strong> so your stock stays in sync. No store SKU? Tap "Generate".</p>
         <div class="sku-row">
           <input type="text" name="sku" id="sku" required />
           <button type="button" class="btn-secondary" id="genSku">Generate</button>
@@ -101,7 +108,7 @@
 
       <div class="field" id="variantsField" hidden>
         <label>Sizes / variants — each needs its own SKU <span class="req">*</span></label>
-        <p class="helper">Add each size or variant and paste the matching SKU. Stock syncs per SKU, so each one must be unique.</p>
+        <p class="helper">Add each size and paste the matching SKU <strong>exactly as it appears in your store</strong>. Stock syncs per SKU, so each one must be unique.</p>
         <div class="variants-wrap">
           <div class="varhead"><span>Variant / size</span><span>SKU</span><span></span></div>
           <div id="variantRows">
@@ -116,14 +123,12 @@
       </div>
 
       <div class="section-label">Photos</div>
-
       <div class="specguide">
         <strong>How to shoot your photos</strong>
         <p>Plain, clear background · natural light · true-to-colour · sharp focus · no filters. For accessories &amp; jewellery, fill the frame and keep the detail crisp.</p>
         <p class="angles">A few angles: <span class="angle">Front</span><span class="angle">Back</span><span class="angle">Side</span><span class="angle">Detail close-up</span></p>
         <span class="snote">High-res originals please — we handle retouching, cropping and consistency.</span>
       </div>
-
       <div class="field">
         <label>Upload product photos <span class="req">*</span></label>
         <p class="helper">High-resolution originals please — at least 2–3 angles.</p>
@@ -135,10 +140,9 @@
           <div class="thumbs"></div>
         </div>
       </div>
-
       <div class="field">
         <label>Lifestyle / campaign photos <span class="optional">(optional)</span></label>
-        <p class="helper">Any organic, UGC or campaign-style shots you have — worn, styled or in context. These help your product feel alive on the marketplace.</p>
+        <p class="helper">Any organic, UGC or campaign-style shots — worn, styled or in context.</p>
         <div class="upload" data-bucket="lifestyle">
           <label class="dropzone">
             <span class="dropzone-text">Tap to add lifestyle photos</span>
@@ -146,11 +150,6 @@
           </label>
           <div class="thumbs"></div>
         </div>
-      </div>
-
-      <div class="field">
-        <label>No photos yet? Tell us here <span class="optional">(and any shipping notes if sending items for us to shoot)</span></label>
-        <textarea name="shippingNotes"></textarea>
       </div>
 
       <div class="section-label">Story &amp; positioning</div>
@@ -162,10 +161,9 @@
       <div class="section-label">Shipping</div>
       <div class="specguide">
         <strong>How shipping works</strong>
-        <p>We offer customers <strong>free shipping</strong> — so build your postage cost into your product price. You pack and post each order yourself, always with <strong>tracked</strong> shipping.</p>
-        <p>Dispatch within <strong>3 business days</strong> — or your stated timeframe if the item is made to order. Add the tracking number when you fulfil (that's what sends the customer's shipping email).</p>
+        <p>We give customers <strong>free shipping</strong>, so your price needs to cover your postage (you've added this above). Add a postage amount that's a fair middle-ground for sending to <strong>either NZ or Australia</strong> — Australia costs a little more, so pick something that averages out. On some orders you'll come out slightly ahead, on others slightly behind; it evens out.</p>
+        <p><strong>ZIGGY's 15% commission comes off the total listed price (item + shipping)</strong>, so factor that in. Always ship <strong>tracked</strong>, to <strong>both NZ and Australia</strong> — dispatch within 3 business days (or your stated made-to-order turnaround).</p>
       </div>
-
       <div class="grid2">
         <div class="field">
           <label>Is this item made to order?</label>
@@ -179,35 +177,14 @@
           <input type="text" name="turnaround" id="turnaround" placeholder="e.g. 2–3 weeks" />
         </div>
       </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Ships from <span class="req">*</span></label>
-          <input type="text" name="shipFrom" placeholder="e.g. Auckland, NZ" required />
-        </div>
-        <div class="field">
-          <label>Ships to</label>
-          <select name="shipsTo">
-            <option value="Domestic only">Within New Zealand only</option>
-            <option value="NZ + Australia">New Zealand + Australia</option>
-            <option value="International">International</option>
-          </select>
-        </div>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Typical dispatch time <span class="optional">(for in-stock items)</span></label>
-          <input type="text" name="dispatchTime" placeholder="e.g. 1–2 business days" />
-        </div>
-        <div class="field">
-          <label>Your typical postage cost per order</label>
-          <p class="helper">Helps you price it in — and helps us keep commission fair on heavier items.</p>
-          <input type="text" name="postageCost" placeholder="e.g. 8.50 NZD" />
-        </div>
+      <div class="field">
+        <label>Ships from <span class="req">*</span></label>
+        <input type="text" name="shipFrom" placeholder="e.g. Auckland, NZ" required />
       </div>
       <div class="field">
         <label class="check">
           <input type="checkbox" name="tracked" value="Yes" required />
-          <span>I confirm every order will be sent with <strong>tracked</strong> shipping. <span class="req">*</span></span>
+          <span>I confirm every order will be sent <strong>tracked</strong>, to both <strong>NZ and Australia</strong>. <span class="req">*</span></span>
         </label>
       </div>
 

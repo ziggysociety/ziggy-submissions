@@ -71,8 +71,9 @@
         </div>
       </div>
       <div class="field">
-        <label>Instagram / socials</label>
-        <input type="text" name="socials" placeholder="@yourbrand, TikTok, etc." />
+        <label>Social media links <span class="req">*</span></label>
+        <p class="helper">Paste your Instagram, TikTok and any others — we love seeing your world.</p>
+        <textarea name="socials" placeholder="Instagram: … · TikTok: … · Other: …" required></textarea>
       </div>
       <div class="field">
         <label>Brand logo</label>
@@ -90,16 +91,6 @@
       <div class="field">
         <label>Tagline / short bio</label>
         <input type="text" name="bio" placeholder="One line that sums up your brand" />
-      </div>
-      <div class="field">
-        <label>Brand story</label>
-        <p class="helper">Who you are, how you started, what makes you you.</p>
-        <textarea name="story"></textarea>
-      </div>
-      <div class="field">
-        <label>Values / ethics / sustainability</label>
-        <p class="helper">How you make things responsibly — materials, labour, packaging, community.</p>
-        <textarea name="values"></textarea>
       </div>
       <div class="grid2">
         <div class="field">
@@ -121,36 +112,19 @@
         <input type="text" name="storePlatform" placeholder="e.g. own Shopify site, markets, Instagram only" />
       </div>
 
-      <div class="section-label">ZIGGY certified criteria</div>
+      <div class="section-label">ZIGGY Certified</div>
       <div class="specguide">
-        <strong>Why we ask</strong>
-        <p>ZIGGY curates brands that are made with care. Tell us how you meet our values — for example: independently owned, handmade or small-batch, ethically made, sustainable or recycled materials, locally made, or cruelty-free.</p>
+        <strong>The ZIGGY Five Criteria — tell us how you meet them</strong>
+        <p>1. <strong>Independent</strong> — founder-led or small-team, no corporate ownership or mass-market retailers.</p>
+        <p>2. <strong>Ethical</strong> — genuine care for people, planet or community (sustainable materials, fair production, giving back, certified practices).</p>
+        <p>3. <strong>Quality</strong> — well-made products to a genuine craft standard (not necessarily premium).</p>
+        <p>4. <strong>Story</strong> — an authentic reason to exist, a clear point of view, something worth championing.</p>
+        <p>5. <strong>NZ or AU based</strong> — local-first; priority to brands based or making in Aotearoa and Australia.</p>
       </div>
       <div class="field">
-        <label>How does your brand meet ZIGGY's certified criteria? <span class="req">*</span></label>
+        <label>How does your brand meet the five criteria? <span class="req">*</span></label>
+        <p class="helper">Speak to each one — this is your chance to tell us your story.</p>
         <textarea name="ziggyCriteria" required></textarea>
-      </div>
-
-      <div class="section-label">Payouts</div>
-      <div class="specguide">
-        <strong>How you get paid</strong>
-        <p>Sales are paid out fortnightly, with ZIGGY's commission already deducted. Add your preferred payout method below.</p>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Preferred payout method</label>
-          <select name="payoutMethod">
-            <option value="">Select…</option>
-            <option>Bank transfer</option>
-            <option>PayPal</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Payout details</label>
-          <p class="helper">Account name + number, or PayPal email.</p>
-          <input type="text" name="payoutDetails" />
-        </div>
       </div>
 
       <div class="btn-row">
@@ -198,9 +172,9 @@
         const fields = {};
         new FormData(form).forEach((v, k) => { fields[k] = v; });
 
-        if (!fields.brandName || !fields.contactEmail || !fields.location || !fields.ziggyCriteria) {
+        if (!fields.brandName || !fields.contactEmail || !fields.location || !fields.socials || !fields.ziggyCriteria) {
           statusEl.textContent = 'Please fill in the required fields.';
-          statusEl.className = 'status error';
+          statusEl.className = 'status err';
           return;
         }
 
@@ -219,7 +193,7 @@
           window.location.href = 'thank-you.html';
         } catch (err) {
           statusEl.textContent = 'Sorry — ' + err.message;
-          statusEl.className = 'status error';
+          statusEl.className = 'status err';
           btn.disabled = false;
         }
       });

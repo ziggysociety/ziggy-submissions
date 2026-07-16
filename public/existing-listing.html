@@ -17,62 +17,59 @@
       <div class="name">Ziggy Society</div>
     </div>
     <h1>Quick submission</h1>
-    <p class="lede">Already selling this on your own website? Give us the essentials and we'll build the listing from your site.</p>
+    <p class="lede">Already selling this on your own website? Give us the essentials and we'll build the listing from your site. Complete brand onboarding first — we'll match this to your brand.</p>
 
     <form id="ziggy-form" data-endpoint="/api/submit-existing" novalidate>
-      <div class="grid2">
-        <div class="field">
-          <label>Brand name <span class="req">*</span></label>
-          <input type="text" name="brandName" required />
-        </div>
-        <div class="field">
-          <label>Contact email <span class="req">*</span></label>
-          <input type="email" name="contactEmail" required />
-        </div>
+
+      <div class="field">
+        <label>Brand name <span class="req">*</span></label>
+        <p class="helper">Use the exact brand name you onboarded with — that's how we link this product to you.</p>
+        <input type="text" name="brandName" required />
       </div>
+
       <div class="field">
         <label>Product link to your site <span class="req">*</span></label>
-        <p class="helper">Paste the product page link — we'll pull the title, description, images, price and SKU straight from it.</p>
+        <p class="helper">Paste the product page link — we'll pull the title, description and images from it.</p>
         <input type="url" name="productLink" placeholder="https://yourstore.com/products/…" required />
       </div>
-      <div class="field">
-        <label>Does this come in multiple sizes / variants?</label>
-        <select name="hasVariants" id="hasVariants">
-          <option value="No">No — just one</option>
-          <option value="Yes">Yes — multiple sizes / variants</option>
-        </select>
-        <p class="helper">Different <em>colours</em> should be submitted as separate products.</p>
+
+      <div class="specguide">
+        <strong>One product per form</strong>
+        <p>This quick form is for a single, one-size product. If it comes in <strong>multiple sizes / variants</strong>, please use the <a href="new-listing.html">full "list it for me" form</a> instead, so each size's SKU syncs correctly.</p>
       </div>
 
-      <div class="field" id="singleSkuField">
-        <label>SKU / product code</label>
-        <p class="helper">We pull this from your link automatically. Check it's right, or type it in to override.</p>
-        <input type="text" name="sku" id="sku" />
+      <div class="section-label">Price (NZD)</div>
+      <div class="specguide">
+        <strong>All prices in NZD</strong>
+        <p>Enter your item's retail price and the postage to add — we'll show your ZIGGY listing price. If your own site is in AUD, convert to NZD here.</p>
       </div>
-
-      <div class="field" id="variantsField" hidden>
-        <label>Sizes / variants — each needs its own SKU <span class="req">*</span></label>
-        <p class="helper">Add each size or variant and paste the matching SKU. Stock syncs per SKU, so each one must be unique.</p>
-        <div class="variants-wrap">
-          <div class="varhead"><span>Variant / size</span><span>SKU</span><span></span></div>
-          <div id="variantRows">
-            <div class="varrow">
-              <input type="text" class="v-name" placeholder="e.g. Small" />
-              <input type="text" class="v-sku" placeholder="SKU for this size" />
-              <button type="button" class="var-remove" aria-label="Remove this variant" title="Remove">&minus;</button>
-            </div>
-          </div>
-          <button type="button" class="btn-secondary" id="addVariant">+ Add another</button>
+      <div class="grid2">
+        <div class="field">
+          <label>Retail price — item only (NZD) <span class="req">*</span></label>
+          <input type="text" name="retailPrice" id="retailPrice" inputmode="decimal" placeholder="e.g. 49.00" required />
         </div>
+        <div class="field">
+          <label>Shipping to add (NZD) <span class="req">*</span></label>
+          <p class="helper">Your postage, averaged for NZ + AU.</p>
+          <input type="text" name="shipping" id="shipping" inputmode="decimal" placeholder="e.g. 8.50" required />
+        </div>
+      </div>
+      <div class="pricebox" id="priceBox" hidden>
+        <span>ZIGGY listing price: <strong id="zPrice">—</strong> NZD</span>
+        <span class="pnote">Your payout after 15%: <strong id="zPayout">—</strong> NZD</span>
+      </div>
+
+      <div class="field">
+        <label>SKU / product code <span class="req">*</span></label>
+        <p class="helper"><strong>Copy the exact SKU from your store</strong> — this is what keeps your stock in sync, so it must match precisely.</p>
+        <input type="text" name="sku" id="sku" required />
       </div>
 
       <div class="specguide">
         <strong>We grab your listing text automatically — but please upload high-res photos</strong>
         <p>Website images are often too small, so add high-resolution originals: plain clear background, natural light, true-to-colour, sharp focus, no filters.</p>
         <p class="angles">A few angles: <span class="angle">Front</span><span class="angle">Back</span><span class="angle">Side</span><span class="angle">Detail close-up</span></p>
-        <span class="snote">Everything else (title, description, price, SKU) is pulled from your link.</span>
       </div>
-
       <div class="field">
         <label>Upload product photos <span class="req">*</span></label>
         <p class="helper">High-resolution originals — at least 2–3 angles, clear background.</p>
@@ -84,7 +81,6 @@
           <div class="thumbs"></div>
         </div>
       </div>
-
       <div class="field">
         <label>Lifestyle / campaign photos <span class="optional">(optional)</span></label>
         <p class="helper">Any organic, UGC or campaign-style shots — worn, styled or in context.</p>
@@ -100,10 +96,9 @@
       <div class="section-label">Shipping</div>
       <div class="specguide">
         <strong>How shipping works</strong>
-        <p>We offer customers <strong>free shipping</strong> — so build your postage cost into your product price. You pack and post each order yourself, always with <strong>tracked</strong> shipping.</p>
-        <p>Dispatch within <strong>3 business days</strong> — or your stated timeframe if the item is made to order. Add the tracking number when you fulfil (that's what sends the customer's shipping email).</p>
+        <p>We give customers <strong>free shipping</strong>, so your price needs to cover your postage (you've added this above). Add a postage amount that's a fair middle-ground for sending to <strong>either NZ or Australia</strong> — Australia costs a little more, so pick something that averages out. On some orders you'll come out slightly ahead, on others slightly behind; it evens out.</p>
+        <p><strong>ZIGGY's 15% commission comes off the total listed price (item + shipping)</strong>, so factor that in. Always ship <strong>tracked</strong>, to <strong>both NZ and Australia</strong> — dispatch within 3 business days (or your stated made-to-order turnaround).</p>
       </div>
-
       <div class="grid2">
         <div class="field">
           <label>Is this item made to order?</label>
@@ -117,34 +112,14 @@
           <input type="text" name="turnaround" id="turnaround" placeholder="e.g. 2–3 weeks" />
         </div>
       </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Ships from <span class="req">*</span></label>
-          <input type="text" name="shipFrom" placeholder="e.g. Auckland, NZ" required />
-        </div>
-        <div class="field">
-          <label>Ships to</label>
-          <select name="shipsTo">
-            <option value="Domestic only">Within New Zealand only</option>
-            <option value="NZ + Australia">New Zealand + Australia</option>
-            <option value="International">International</option>
-          </select>
-        </div>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Typical dispatch time <span class="optional">(for in-stock items)</span></label>
-          <input type="text" name="dispatchTime" placeholder="e.g. 1–2 business days" />
-        </div>
-        <div class="field">
-          <label>Your typical postage cost per order</label>
-          <input type="text" name="postageCost" placeholder="e.g. 8.50 NZD" />
-        </div>
+      <div class="field">
+        <label>Ships from <span class="req">*</span></label>
+        <input type="text" name="shipFrom" placeholder="e.g. Auckland, NZ" required />
       </div>
       <div class="field">
         <label class="check">
           <input type="checkbox" name="tracked" value="Yes" required />
-          <span>I confirm every order will be sent with <strong>tracked</strong> shipping. <span class="req">*</span></span>
+          <span>I confirm every order will be sent <strong>tracked</strong>, to both <strong>NZ and Australia</strong>. <span class="req">*</span></span>
         </label>
       </div>
 

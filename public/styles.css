@@ -237,5 +237,21 @@ input:focus, select:focus, textarea:focus {
 .status { margin-top: 16px; font-size: 16px; }
 .status.err { color: #b4553f; }
 
+/* Live price box (retail + shipping) */
+.pricebox {
+  margin-top: 10px;
+  background: var(--sage-tint);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: var(--font-head);
+  font-size: 15px;
+  color: var(--olive);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+}
+.pricebox strong { font-size: 16px; }
+.pricebox .pnote { color: #6f7060; }
+
 /* Thank you */
 .center-card { text-align: center; }
