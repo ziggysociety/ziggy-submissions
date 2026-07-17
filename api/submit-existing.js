@@ -22,6 +22,7 @@ module.exports = async (req, res) => {
     const f = body.fields || {};
     const photos = body.photos || [];
     const lifestyle = body.lifestyle || [];
+    const variants = Array.isArray(body.variants) ? body.variants : [];
 
     if (!f.brandName || !f.productLink) {
       res.status(400).send('Missing required fields (brand name and product link).'); return;
@@ -33,6 +34,7 @@ module.exports = async (req, res) => {
     const fetched = await fetchProductFromUrl(f.productLink);
 
     // SKU: the vendor copies their exact store SKU (required) so stock syncs.
+    // For multi-size products each size carries its own SKU (see variants).
     const sku = f.sku || (fetched.ok && fetched.sku) || generateSku(f.brandName);
 
     const madeToOrder = /yes/i.test(f.madeToOrder || '');
@@ -60,6 +62,7 @@ module.exports = async (req, res) => {
           .filter(Boolean),
         price: totalPrice,
         sku,
+        variants,
         imageUrls: fetched.ok ? fetched.imageUrls : [],
         vendorEmail
       });
@@ -72,7 +75,10 @@ module.exports = async (req, res) => {
       row('Brand', f.brandName) +
       row('Vendor email', vendorEmail || '_not found — has this brand onboarded?_') +
       row('Product link', f.productLink) +
-      row('SKU', sku + (f.sku ? ' _(vendor store SKU)_' : ' _(auto)_')) +
+      (variants.length
+        ? `**Sizes (each its own store SKU):**\n` +
+          variants.map(v => `- ${v.name} · SKU ${v.sku}`).join('\n') + '\n'
+        : row('SKU', sku + (f.sku ? ' _(vendor store SKU)_' : ' _(auto)_'))) +
       `**Pricing (NZD):** retail ${retail.toFixed(2)} + shipping ${shipping.toFixed(2)} = **${totalPrice}** (est. payout after 15%: ${payout})\n` +
       row('Made to order', madeToOrder ? `Yes — turnaround: ${turnaround || 'TBC'}` : 'No') +
       row('Ships from', f.shipFrom) +
@@ -82,8 +88,8 @@ module.exports = async (req, res) => {
         ? row('Auto-fetch', `✓ Pulled "${fetched.title}"` +
             (fetched.imageUrls.length ? ` · ${fetched.imageUrls.length} image(s)` : ''))
         : row('Auto-fetch', `✗ Could not read the link (${fetched.reason}). Build the listing manually.`)) +
-      (fetched.ok && fetched.variantCount > 1
-        ? `\n_⚠ This link looks like it has multiple variants. Ask the vendor to resubmit via the full form so each size's SKU syncs._\n`
+      (fetched.ok && fetched.variantCount > 1 && !variants.length
+        ? `\n_⚠ This link looks like it has multiple sizes but none were entered. Check the vendor added every size + SKU below._\n`
         : '') +
       (shopify && shopify.adminUrl ? `**Shopify draft:** ${shopify.adminUrl}\n` : '') +
       (shopify && shopify.error ? `_Shopify draft not created: ${shopify.error}_\n` : '');
