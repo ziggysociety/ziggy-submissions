@@ -226,7 +226,8 @@ input:focus, select:focus, textarea:focus {
   margin: 12px 0 22px;
   font-size: 16px;
 }
-.specguide strong { font-family: var(--font-head); font-size: 14px; color: var(--olive); display: block; margin-bottom: 6px; }
+.specguide > strong { font-family: var(--font-head); font-size: 14px; color: var(--olive); display: block; margin-bottom: 6px; }
+.specguide p strong { font-weight: 600; color: var(--olive); }
 .specguide p { margin: 6px 0; }
 .specguide .angles { margin-top: 8px; }
 .specguide .angle {
