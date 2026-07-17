@@ -71,9 +71,28 @@
         </div>
       </div>
       <div class="field">
-        <label>Social media links <span class="req">*</span></label>
-        <p class="helper">Paste your Instagram, TikTok and any others — we love seeing your world.</p>
-        <textarea name="socials" placeholder="Instagram: … · TikTok: … · Other: …" required></textarea>
+        <label>Social media links</label>
+        <p class="helper">Paste the link next to each platform. <strong>Instagram is required</strong>; the rest are optional — add whatever you're on, we love seeing your world.</p>
+        <div class="social-row">
+          <span class="social-label">Instagram <span class="req">*</span></span>
+          <input type="url" name="instagram" id="instagram" placeholder="https://instagram.com/yourbrand" required />
+        </div>
+        <div class="social-row">
+          <span class="social-label">TikTok <span class="optional">(optional)</span></span>
+          <input type="url" name="tiktok" placeholder="https://tiktok.com/@yourbrand" />
+        </div>
+        <div class="social-row">
+          <span class="social-label">Threads <span class="optional">(optional)</span></span>
+          <input type="url" name="threads" placeholder="https://threads.net/@yourbrand" />
+        </div>
+        <div class="social-row">
+          <span class="social-label">X <span class="optional">(optional)</span></span>
+          <input type="url" name="x" placeholder="https://x.com/yourbrand" />
+        </div>
+        <div class="social-row">
+          <span class="social-label">Facebook <span class="optional">(optional)</span></span>
+          <input type="url" name="facebook" placeholder="https://facebook.com/yourbrand" />
+        </div>
       </div>
       <div class="field">
         <label>Brand logo</label>
@@ -172,11 +191,20 @@
         const fields = {};
         new FormData(form).forEach((v, k) => { fields[k] = v; });
 
-        if (!fields.brandName || !fields.contactEmail || !fields.location || !fields.socials || !fields.ziggyCriteria) {
-          statusEl.textContent = 'Please fill in the required fields.';
+        if (!fields.brandName || !fields.contactEmail || !fields.location || !fields.instagram || !fields.ziggyCriteria) {
+          statusEl.textContent = 'Please fill in the required fields (Instagram link is required).';
           statusEl.className = 'status err';
           return;
         }
+
+        // Combine the individual platform links into one 'socials' string for the backend.
+        fields.socials = [
+          fields.instagram && ('Instagram: ' + fields.instagram),
+          fields.tiktok && ('TikTok: ' + fields.tiktok),
+          fields.threads && ('Threads: ' + fields.threads),
+          fields.x && ('X: ' + fields.x),
+          fields.facebook && ('Facebook: ' + fields.facebook)
+        ].filter(Boolean).join(' · ');
 
         const btn = document.getElementById('submitBtn');
         btn.disabled = true;

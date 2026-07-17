@@ -34,8 +34,8 @@
       </div>
 
       <div class="specguide">
-        <strong>One product per form</strong>
-        <p>This quick form is for a single, one-size product. If it comes in <strong>multiple sizes / variants</strong>, please use the <a href="new-listing.html">full "list it for me" form</a> instead, so each size's SKU syncs correctly.</p>
+        <strong>One product per form — sizes are fine, colours are not</strong>
+        <p>Submit <strong>one product per form</strong>. If it comes in <strong>multiple sizes</strong>, add them all below with each size's own SKU. <strong>Different colours must be submitted as separate products</strong> (one form each), so each colour gets its own listing and photos.</p>
       </div>
 
       <div class="section-label">Price (NZD)</div>
@@ -59,10 +59,36 @@
         <span class="pnote">Your payout after 15%: <strong id="zPayout">—</strong> NZD</span>
       </div>
 
+      <div class="section-label">Sizes &amp; SKU</div>
       <div class="field">
+        <label>Does this come in multiple sizes?</label>
+        <select name="hasVariants" id="hasVariants">
+          <option value="No">No — just one</option>
+          <option value="Yes">Yes — multiple sizes</option>
+        </select>
+        <p class="helper">Only <em>sizes</em> go here. Different <strong>colours</strong> should be submitted as a separate product upload.</p>
+      </div>
+
+      <div class="field" id="singleSkuField">
         <label>SKU / product code <span class="req">*</span></label>
         <p class="helper"><strong>Copy the exact SKU from your store</strong> — this is what keeps your stock in sync, so it must match precisely.</p>
         <input type="text" name="sku" id="sku" required />
+      </div>
+
+      <div class="field" id="variantsField" hidden>
+        <label>Sizes — add every size with its own SKU <span class="req">*</span></label>
+        <p class="helper"><strong>Add all of your sizes here</strong> and paste each one's SKU <strong>exactly as it appears in your store</strong>. Stock syncs per SKU, so every size needs its own unique code — don't miss any.</p>
+        <div class="variants-wrap">
+          <div class="varhead"><span>Size</span><span>SKU</span><span></span></div>
+          <div id="variantRows">
+            <div class="varrow">
+              <input type="text" class="v-name" placeholder="e.g. Small" />
+              <input type="text" class="v-sku" placeholder="SKU for this size" />
+              <button type="button" class="var-remove" aria-label="Remove this size" title="Remove">&minus;</button>
+            </div>
+          </div>
+          <button type="button" class="btn-secondary" id="addVariant">+ Add another size</button>
+        </div>
       </div>
 
       <div class="specguide">
@@ -96,7 +122,7 @@
       <div class="section-label">Shipping</div>
       <div class="specguide">
         <strong>How shipping works</strong>
-        <p>We give customers <strong>free shipping</strong>, so your price needs to cover your postage (you've added this above). Add a postage amount that's a fair middle-ground for sending to <strong>either NZ or Australia</strong> — Australia costs a little more, so pick something that averages out. On some orders you'll come out slightly ahead, on others slightly behind; it evens out.</p>
+        <p>We give customers <strong>free shipping</strong>, so your price needs to cover your postage (you've added this above). Add a postage amount that's a fair middle-ground for sending to <strong>both NZ and Australia</strong> from wherever you ship. On some orders you'll come out slightly ahead, on others slightly behind; it evens out.</p>
         <p><strong>ZIGGY's 15% commission comes off the total listed price (item + shipping)</strong>, so factor that in. Always ship <strong>tracked</strong>, to <strong>both NZ and Australia</strong> — dispatch within 3 business days (or your stated made-to-order turnaround).</p>
       </div>
       <div class="grid2">

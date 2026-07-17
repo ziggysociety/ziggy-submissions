@@ -170,6 +170,16 @@ input:focus, select:focus, textarea:focus {
 /* SKU row: input + generate button */
 .sku-row { display: flex; gap: 10px; align-items: stretch; }
 .sku-row input { flex: 1; }
+
+/* Social links: platform label + link input */
+.social-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.social-label { flex: 0 0 132px; font-family: var(--font-head); font-weight: 600; font-size: 14px; }
+.social-label .optional { font-weight: 400; }
+.social-row input { flex: 1; }
+@media (max-width: 560px) {
+  .social-row { flex-direction: column; align-items: stretch; gap: 4px; }
+  .social-label { flex: none; }
+}
 .btn-secondary {
   font-family: var(--font-head);
   font-weight: 600;
