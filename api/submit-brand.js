@@ -68,7 +68,8 @@ module.exports = async (req, res) => {
       markdown: md,
       status: 'to do',
       listId: BRANDS_LIST_ID,
-      customFields
+      customFields,
+      assignees: [222060393]   // Anna — assigning emails her when a brand onboards
     });
 
     if (logo.length) {

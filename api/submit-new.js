@@ -8,6 +8,7 @@ const { createDraftProduct } = require('../lib/shopify');
 const { createTask, attachPhotos } = require('../lib/clickup');
 const { generateSku } = require('../lib/sku');
 const { getBrandEmail } = require('../lib/brands');
+const { createTodoistTask } = require('../lib/todoist');
 
 function esc(s) { return String(s || '').replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c])); }
 function row(label, val) { return val ? `**${label}:** ${val}\n` : ''; }
@@ -105,6 +106,14 @@ module.exports = async (req, res) => {
 
     await attachPhotos(task.id, photos);
     await attachPhotos(task.id, lifestyle, 'LIFESTYLE-');
+
+    // Add a "Product Approval" task to Todoist (non-fatal if it fails).
+    try {
+      await createTodoistTask({
+        content: `Product Approval: ${f.brandName} - ${f.productName}`,
+        description: task.url ? `ClickUp: ${task.url}` : undefined
+      });
+    } catch (e) { /* keep going — Todoist is a nice-to-have */ }
 
     res.status(200).json({ ok: true, taskUrl: task.url, shopify });
   } catch (err) {

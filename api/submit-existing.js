@@ -9,6 +9,7 @@ const { createTask, attachPhotos } = require('../lib/clickup');
 const { fetchProductFromUrl } = require('../lib/fetchProduct');
 const { generateSku } = require('../lib/sku');
 const { getBrandEmail } = require('../lib/brands');
+const { createTodoistTask } = require('../lib/todoist');
 
 function row(label, val) { return val ? `**${label}:** ${val}\n` : ''; }
 function num(v) { const m = String(v || '').replace(',', '').match(/[\d.]+/); return m ? parseFloat(m[0]) : NaN; }
@@ -103,6 +104,15 @@ module.exports = async (req, res) => {
 
     await attachPhotos(task.id, photos);
     await attachPhotos(task.id, lifestyle, 'LIFESTYLE-');
+
+    // Add a "Product Approval" task to Todoist (non-fatal if it fails).
+    const productName = (fetched.ok && fetched.title) || `${f.brandName} product`;
+    try {
+      await createTodoistTask({
+        content: `Product Approval: ${f.brandName} - ${productName}`,
+        description: task.url ? `ClickUp: ${task.url}` : undefined
+      });
+    } catch (e) { /* keep going — Todoist is a nice-to-have */ }
 
     res.status(200).json({ ok: true, taskUrl: task.url, shopify, fetched: fetched.ok });
   } catch (err) {
