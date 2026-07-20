@@ -1,231 +1,248 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Brand onboarding · ZIGGY SOCIETY</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="logo.svg" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Brand onboarding · ZIGGY SOCIETY</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+<link rel="icon" href="logo.svg" />
 </head>
 <body>
-  <div class="wrap">
-    <div class="brand">
-      <img src="logo.svg" alt="ZIGGY Society" />
-      <div class="name">Ziggy Society</div>
-    </div>
-    <h1>Brand onboarding</h1>
-    <p class="lede">Welcome to ZIGGY. Tell us about your brand so we can set you up as a vendor. This creates your brand profile in our system.</p>
+<div class="wrap">
+<div class="brand">
+<img src="logo.svg" alt="ZIGGY Society" />
+<div class="name">Ziggy Society</div>
+</div>
+<h1>Brand onboarding</h1>
+<p class="lede">Welcome to ZIGGY. Tell us about your brand so we can set you up as a vendor. This creates your brand profile in our system.</p>
 
-    <form id="brand-form" novalidate>
+<form id="brand-form" novalidate>
 
-      <div class="section-label">Brand &amp; contact</div>
-      <div class="grid2">
-        <div class="field">
-          <label>Brand name <span class="req">*</span></label>
-          <input type="text" name="brandName" required />
-        </div>
-        <div class="field">
-          <label>Legal / trading name</label>
-          <p class="helper">The name your business is registered under, if different.</p>
-          <input type="text" name="legalName" />
-        </div>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Business structure</label>
-          <select name="businessStructure">
-            <option value="">Select…</option>
-            <option>Sole trader</option>
-            <option>Partnership</option>
-            <option>Limited company</option>
-            <option>Not yet registered</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Location (city, country) <span class="req">*</span></label>
-          <input type="text" name="location" placeholder="e.g. Auckland, New Zealand" required />
-        </div>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Contact name <span class="req">*</span></label>
-          <input type="text" name="contactName" required />
-        </div>
-        <div class="field">
-          <label>Contact email <span class="req">*</span></label>
-          <input type="email" name="contactEmail" required />
-        </div>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Phone <span class="optional">(optional)</span></label>
-          <input type="text" name="phone" />
-        </div>
-        <div class="field">
-          <label>Website</label>
-          <input type="url" name="website" placeholder="https://…" />
-        </div>
-      </div>
-      <div class="field">
-        <label>Social media links</label>
-        <p class="helper">Paste the link next to each platform. <strong>Instagram is required</strong>; the rest are optional — add whatever you're on, we love seeing your world.</p>
-        <div class="social-row">
-          <span class="social-label">Instagram</span>
-          <input type="url" name="instagram" id="instagram" placeholder="https://instagram.com/yourbrand" required />
-        </div>
-        <div class="social-row">
-          <span class="social-label">TikTok</span>
-          <input type="url" name="tiktok" placeholder="https://tiktok.com/@yourbrand" />
-        </div>
-        <div class="social-row">
-          <span class="social-label">Threads</span>
-          <input type="url" name="threads" placeholder="https://threads.net/@yourbrand" />
-        </div>
-        <div class="social-row">
-          <span class="social-label">X</span>
-          <input type="url" name="x" placeholder="https://x.com/yourbrand" />
-        </div>
-        <div class="social-row">
-          <span class="social-label">Facebook</span>
-          <input type="url" name="facebook" placeholder="https://facebook.com/yourbrand" />
-        </div>
-      </div>
-      <div class="field">
-        <label>Brand logo</label>
-        <p class="helper">High-res PNG or JPG, ideally on a transparent or plain background.</p>
-        <div class="upload" data-bucket="logo">
-          <label class="dropzone">
-            <span class="dropzone-text">Tap to add your logo</span>
-            <input type="file" accept="image/*" />
-          </label>
-          <div class="thumbs"></div>
-        </div>
-      </div>
+<div class="section-label">Brand &amp; contact</div>
+<div class="grid2">
+<div class="field">
+<label>Brand name <span class="req">*</span></label>
+<input type="text" name="brandName" required />
+</div>
+<div class="field">
+<label>Legal / trading name</label>
+<p class="helper">The name your business is registered under, if different.</p>
+<input type="text" name="legalName" />
+</div>
+</div>
+<div class="grid2">
+<div class="field">
+<label>Business structure</label>
+<select name="businessStructure">
+<option value="">Select…</option>
+<option>Sole trader</option>
+<option>Partnership</option>
+<option>Limited company</option>
+<option>Not yet registered</option>
+<option>Other</option>
+</select>
+</div>
+<div class="field">
+<label>Location (city, country) <span class="req">*</span></label>
+<input type="text" name="location" placeholder="e.g. Auckland, New Zealand" required />
+</div>
+</div>
+<div class="grid2">
+<div class="field">
+<label>Contact name <span class="req">*</span></label>
+<input type="text" name="contactName" required />
+</div>
+<div class="field">
+<label>Contact email <span class="req">*</span></label>
+<input type="email" name="contactEmail" required />
+</div>
+</div>
+<div class="grid2">
+<div class="field">
+<label>Phone <span class="optional">(optional)</span></label>
+<input type="text" name="phone" />
+</div>
+<div class="field">
+<label>Website</label>
+<input type="url" name="website" placeholder="https://…" />
+</div>
+</div>
+<div class="field">
+<label>Social media links</label>
+<p class="helper">Paste the link next to each platform. <strong>Instagram is required</strong>; the rest are optional — add whatever you're on, we love seeing your world.</p>
+<div class="social-row">
+<span class="social-label">Instagram</span>
+<input type="url" name="instagram" id="instagram" placeholder="https://instagram.com/yourbrand" required />
+</div>
+<div class="social-row">
+<span class="social-label">TikTok</span>
+<input type="url" name="tiktok" placeholder="https://tiktok.com/@yourbrand" />
+</div>
+<div class="social-row">
+<span class="social-label">Threads</span>
+<input type="url" name="threads" placeholder="https://threads.net/@yourbrand" />
+</div>
+<div class="social-row">
+<span class="social-label">X</span>
+<input type="url" name="x" placeholder="https://x.com/yourbrand" />
+</div>
+<div class="social-row">
+<span class="social-label">Facebook</span>
+<input type="url" name="facebook" placeholder="https://facebook.com/yourbrand" />
+</div>
+</div>
+<div class="field">
+<label>Brand logo</label>
+<p class="helper">High-res PNG or JPG, ideally on a transparent or plain background.</p>
+<div class="upload" data-bucket="logo">
+<label class="dropzone">
+<span class="dropzone-text">Tap to add your logo</span>
+<input type="file" accept="image/*" />
+</label>
+<div class="thumbs"></div>
+</div>
+</div>
 
-      <div class="section-label">Your brand</div>
-      <div class="field">
-        <label>Tagline / short bio</label>
-        <input type="text" name="bio" placeholder="One line that sums up your brand" />
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Production method &amp; materials</label>
-          <input type="text" name="production" placeholder="e.g. hand-made, small-batch, recycled silver" />
-        </div>
-        <div class="field">
-          <label>Made to order or ready made?</label>
-          <select name="madeReady">
-            <option value="">Select…</option>
-            <option>Made to Order</option>
-            <option>Ready Made</option>
-            <option>Both</option>
-          </select>
-        </div>
-      </div>
-      <div class="field">
-        <label>Where do you currently sell?</label>
-        <input type="text" name="storePlatform" placeholder="e.g. own Shopify site, markets, Instagram only" />
-      </div>
+<div class="section-label">Your brand</div>
+<div class="field">
+<label>Tagline / short bio</label>
+<input type="text" name="bio" placeholder="One line that sums up your brand" />
+</div>
+<div class="grid2">
+<div class="field">
+<label>Production method &amp; materials</label>
+<input type="text" name="production" placeholder="e.g. hand-made, small-batch, recycled silver" />
+</div>
+<div class="field">
+<label>Made to order or ready made?</label>
+<select name="madeReady" id="madeReady">
+<option value="">Select…</option>
+<option>Made to Order</option>
+<option>Ready Made</option>
+<option>Both</option>
+</select>
+</div>
+</div>
+<div class="field" id="turnaroundField" style="display:none">
+<label>Typical turnaround time</label>
+<p class="helper">Roughly how long from order to dispatch for your made-to-order pieces?</p>
+<input type="text" name="turnaround" placeholder="e.g. 2–3 weeks" />
+</div>
+<div class="field">
+<label>Where do you currently sell?</label>
+<input type="text" name="storePlatform" placeholder="e.g. own Shopify site, markets, Instagram only" />
+</div>
 
-      <div class="section-label">ZIGGY Certified</div>
-      <div class="specguide">
-        <strong>The ZIGGY Five Criteria — tell us how you meet them</strong>
-        <p>1. <strong>Independent</strong> — founder-led or small-team, no corporate ownership or mass-market retailers.</p>
-        <p>2. <strong>Ethical</strong> — genuine care for people, planet or community (sustainable materials, fair production, giving back, certified practices).</p>
-        <p>3. <strong>Quality</strong> — well-made products to a genuine craft standard (not necessarily premium).</p>
-        <p>4. <strong>Story</strong> — an authentic reason to exist, a clear point of view, something worth championing.</p>
-        <p>5. <strong>NZ or AU based</strong> — local-first; priority to brands based or making in Aotearoa and Australia.</p>
-      </div>
-      <div class="field">
-        <label>How does your brand meet the five criteria? <span class="req">*</span></label>
-        <p class="helper">Speak to each one — this is your chance to tell us your story.</p>
-        <textarea name="ziggyCriteria" required></textarea>
-      </div>
+<div class="section-label">ZIGGY Certified</div>
+<div class="specguide">
+<strong>The ZIGGY Five Criteria — tell us how you meet them</strong>
+<p>1. <strong>Independent</strong> — founder-led or small-team, no corporate ownership or mass-market retailers.</p>
+<p>2. <strong>Ethical</strong> — genuine care for people, planet or community (sustainable materials, fair production, giving back, certified practices).</p>
+<p>3. <strong>Quality</strong> — well-made products to a genuine craft standard (not necessarily premium).</p>
+<p>4. <strong>Story</strong> — an authentic reason to exist, a clear point of view, something worth championing.</p>
+<p>5. <strong>NZ or AU based</strong> — local-first; priority to brands based or making in Aotearoa and Australia.</p>
+</div>
+<div class="field">
+<label>How does your brand meet the five criteria? <span class="req">*</span></label>
+<p class="helper">Speak to each one — this is your chance to tell us your story.</p>
+<textarea name="ziggyCriteria" required></textarea>
+</div>
 
-      <div class="btn-row">
-        <button type="submit" class="btn" id="submitBtn">Submit brand</button>
-        <a class="back" href="index.html">Back</a>
-      </div>
-      <div class="status" id="status" role="status"></div>
-    </form>
-  </div>
+<div class="btn-row">
+<button type="submit" class="btn" id="submitBtn">Submit brand</button>
+<a class="back" href="index.html">Back</a>
+</div>
+<div class="status" id="status" role="status"></div>
+</form>
+</div>
 
-  <script>
-    (function () {
-      const form = document.getElementById('brand-form');
-      const statusEl = document.getElementById('status');
-      const zone = form.querySelector('.upload[data-bucket="logo"]');
-      const fileInput = zone.querySelector('input[type="file"]');
-      const thumbs = zone.querySelector('.thumbs');
-      let logoFiles = [];
+<script>
+(function () {
+const form = document.getElementById('brand-form');
+const statusEl = document.getElementById('status');
+const zone = form.querySelector('.upload[data-bucket="logo"]');
+const fileInput = zone.querySelector('input[type="file"]');
+const thumbs = zone.querySelector('.thumbs');
+let logoFiles = [];
 
-      function readAsDataUrl(file) {
-        return new Promise((resolve) => {
-          const r = new FileReader();
-          r.onload = () => resolve({ name: file.name, dataUrl: r.result });
-          r.readAsDataURL(file);
-        });
-      }
+// Show the turnaround-time box only when the brand makes to order.
+const madeReadySel = document.getElementById('madeReady');
+const turnaroundField = document.getElementById('turnaroundField');
+const turnaroundInput = turnaroundField.querySelector('input[name="turnaround"]');
+function toggleTurnaround() {
+const show = madeReadySel.value === 'Made to Order' || madeReadySel.value === 'Both';
+turnaroundField.style.display = show ? '' : 'none';
+if (!show) turnaroundInput.value = '';
+}
+madeReadySel.addEventListener('change', toggleTurnaround);
+toggleTurnaround();
 
-      fileInput.addEventListener('change', async () => {
-        logoFiles = [];
-        thumbs.innerHTML = '';
-        for (const file of fileInput.files) {
-          const item = await readAsDataUrl(file);
-          logoFiles.push(item);
-          const img = document.createElement('img');
-          img.src = item.dataUrl;
-          img.className = 'thumb';
-          thumbs.appendChild(img);
-        }
-        const txt = zone.querySelector('.dropzone-text');
-        if (txt) txt.textContent = logoFiles.length ? (logoFiles.length + ' logo added — tap to change') : 'Tap to add your logo';
-      });
+function readAsDataUrl(file) {
+return new Promise((resolve) => {
+const r = new FileReader();
+r.onload = () => resolve({ name: file.name, dataUrl: r.result });
+r.readAsDataURL(file);
+});
+}
 
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const fields = {};
-        new FormData(form).forEach((v, k) => { fields[k] = v; });
+fileInput.addEventListener('change', async () => {
+logoFiles = [];
+thumbs.innerHTML = '';
+for (const file of fileInput.files) {
+const item = await readAsDataUrl(file);
+logoFiles.push(item);
+const img = document.createElement('img');
+img.src = item.dataUrl;
+img.className = 'thumb';
+thumbs.appendChild(img);
+}
+const txt = zone.querySelector('.dropzone-text');
+if (txt) txt.textContent = logoFiles.length ? (logoFiles.length + ' logo added — tap to change') : 'Tap to add your logo';
+});
 
-        if (!fields.brandName || !fields.contactEmail || !fields.location || !fields.instagram || !fields.ziggyCriteria) {
-          statusEl.textContent = 'Please fill in the required fields (Instagram link is required).';
-          statusEl.className = 'status err';
-          return;
-        }
+form.addEventListener('submit', async (e) => {
+e.preventDefault();
+const fields = {};
+new FormData(form).forEach((v, k) => { fields[k] = v; });
 
-        // Combine the individual platform links into one 'socials' string for the backend.
-        fields.socials = [
-          fields.instagram && ('Instagram: ' + fields.instagram),
-          fields.tiktok && ('TikTok: ' + fields.tiktok),
-          fields.threads && ('Threads: ' + fields.threads),
-          fields.x && ('X: ' + fields.x),
-          fields.facebook && ('Facebook: ' + fields.facebook)
-        ].filter(Boolean).join(' · ');
+if (!fields.brandName || !fields.contactEmail || !fields.location || !fields.instagram || !fields.ziggyCriteria) {
+statusEl.textContent = 'Please fill in the required fields (Instagram link is required).';
+statusEl.className = 'status err';
+return;
+}
 
-        const btn = document.getElementById('submitBtn');
-        btn.disabled = true;
-        statusEl.textContent = 'Submitting…';
-        statusEl.className = 'status';
+// Combine the individual platform links into one 'socials' string for the backend.
+fields.socials = [
+fields.instagram && ('Instagram: ' + fields.instagram),
+fields.tiktok && ('TikTok: ' + fields.tiktok),
+fields.threads && ('Threads: ' + fields.threads),
+fields.x && ('X: ' + fields.x),
+fields.facebook && ('Facebook: ' + fields.facebook)
+].filter(Boolean).join(' · ');
 
-        try {
-          const res = await fetch('/api/submit-brand', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ fields, logo: logoFiles })
-          });
-          if (!res.ok) throw new Error(await res.text());
-          window.location.href = 'thank-you.html';
-        } catch (err) {
-          statusEl.textContent = 'Sorry — ' + err.message;
-          statusEl.className = 'status err';
-          btn.disabled = false;
-        }
-      });
-    })();
-  </script>
+const btn = document.getElementById('submitBtn');
+btn.disabled = true;
+statusEl.textContent = 'Submitting…';
+statusEl.className = 'status';
+
+try {
+const res = await fetch('/api/submit-brand', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ fields, logo: logoFiles })
+});
+if (!res.ok) throw new Error(await res.text());
+window.location.href = 'brand-thank-you.html';
+} catch (err) {
+statusEl.textContent = 'Sorry — ' + err.message;
+statusEl.className = 'status err';
+btn.disabled = false;
+}
+});
+})();
+</script>
 </body>
 </html>
