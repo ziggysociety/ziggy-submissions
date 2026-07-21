@@ -9,6 +9,7 @@ const { createTask, attachPhotos } = require('../lib/clickup');
 const { generateSku } = require('../lib/sku');
 const { getBrandEmail } = require('../lib/brands');
 const { createTodoistTask } = require('../lib/todoist');
+const { sendEmail } = require('../lib/email');
 
 function esc(s) { return String(s || '').replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c])); }
 function row(label, val) { return val ? `**${label}:** ${val}\n` : ''; }
@@ -51,8 +52,8 @@ module.exports = async (req, res) => {
         f.description ? `<p>${esc(f.description)}</p>` : '',
         '<ul>',
         f.materials ? `<li><strong>Materials/fabric:</strong> ${esc(f.materials)}</li>` : '',
-        f.colours   ? `<li><strong>Colours:</strong> ${esc(f.colours)}</li>` : '',
-        f.ethics    ? `<li><strong>Ethical/sustainability:</strong> ${esc(f.ethics)}</li>` : '',
+        f.colours ? `<li><strong>Colours:</strong> ${esc(f.colours)}</li>` : '',
+        f.ethics ? `<li><strong>Ethical/sustainability:</strong> ${esc(f.ethics)}</li>` : '',
         madeToOrder ? `<li><strong>Made to order</strong> — turnaround: ${esc(turnaround || 'TBC')}</li>` : '',
         '</ul>'
       ].join('');
@@ -101,7 +102,7 @@ module.exports = async (req, res) => {
       name: `${f.productName} — ${f.brandName}`,
       markdown: md,
       status: 'Submitted',
-      assignees: [222060393]   // Anna — assigning emails her on every submission
+      assignees: [222060393] // Anna — assigning emails her on every submission
     });
 
     await attachPhotos(task.id, photos);
@@ -114,6 +115,22 @@ module.exports = async (req, res) => {
         description: task.url ? `ClickUp: ${task.url}` : undefined
       });
     } catch (e) { /* keep going — Todoist is a nice-to-have */ }
+
+    // Email Anna directly on every submission. ClickUp does not notify her about
+    // tasks the portal creates under her own account, so this is the reliable alert.
+    try {
+      await sendEmail({
+        to: process.env.ADMIN_EMAIL || 'anna@ziggysociety.com',
+        subject: `New product submission: ${f.productName} — ${f.brandName}`,
+        html: `<div style="font-family:Arial,Helvetica,sans-serif;color:#2f3427;max-width:520px;margin:0 auto">
+<h2 style="color:#3a4a2a">New product submission</h2>
+<p><strong>${f.productName}</strong> — ${f.brandName}</p>
+<p>Vendor email: ${vendorEmail || 'not found — has this brand onboarded?'}</p>
+<p>Price (NZD): ${totalPrice}</p>
+<p><a href="${task.url}" style="color:#3a4a2a">Open in ClickUp</a></p>
+</div>`
+      });
+    } catch (e) { /* non-fatal - never block a submission on the notify email */ }
 
     res.status(200).json({ ok: true, taskUrl: task.url, shopify });
   } catch (err) {
