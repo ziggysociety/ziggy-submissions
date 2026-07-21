@@ -10,6 +10,7 @@ const { fetchProductFromUrl } = require('../lib/fetchProduct');
 const { generateSku } = require('../lib/sku');
 const { getBrandEmail } = require('../lib/brands');
 const { createTodoistTask } = require('../lib/todoist');
+const { sendEmail } = require('../lib/email');
 
 function row(label, val) { return val ? `**${label}:** ${val}\n` : ''; }
 function num(v) { const m = String(v || '').replace(',', '').match(/[\d.]+/); return m ? parseFloat(m[0]) : NaN; }
@@ -99,7 +100,7 @@ module.exports = async (req, res) => {
       name: `${(fetched.ok && fetched.title) || f.brandName} — ${f.brandName} (website)`,
       markdown: md,
       status: 'Submitted',
-      assignees: [222060393]   // Anna — assigning emails her on every submission
+      assignees: [222060393] // Anna — assigning emails her on every submission
     });
 
     await attachPhotos(task.id, photos);
@@ -113,6 +114,22 @@ module.exports = async (req, res) => {
         description: task.url ? `ClickUp: ${task.url}` : undefined
       });
     } catch (e) { /* keep going — Todoist is a nice-to-have */ }
+
+    // Email Anna directly on every submission. ClickUp does not notify her about
+    // tasks the portal creates under her own account, so this is the reliable alert.
+    try {
+      await sendEmail({
+        to: process.env.ADMIN_EMAIL || 'anna@ziggysociety.com',
+        subject: `New product submission: ${productName} — ${f.brandName}`,
+        html: `<div style="font-family:Arial,Helvetica,sans-serif;color:#2f3427;max-width:520px;margin:0 auto">
+<h2 style="color:#3a4a2a">New product submission</h2>
+<p><strong>${productName}</strong> — ${f.brandName}</p>
+<p>Vendor email: ${vendorEmail || 'not found — has this brand onboarded?'}</p>
+<p>Product link: ${f.productLink}</p>
+<p><a href="${task.url}" style="color:#3a4a2a">Open in ClickUp</a></p>
+</div>`
+      });
+    } catch (e) { /* non-fatal - never block a submission on the notify email */ }
 
     res.status(200).json({ ok: true, taskUrl: task.url, shopify, fetched: fetched.ok });
   } catch (err) {
