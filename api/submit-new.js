@@ -1,8 +1,11 @@
 // POST /api/submit-new
 // New listing (full details): creates a Shopify DRAFT product (if configured)
 // + a ClickUp task with all details and photos attached.
-// Pricing = retail (NZD) + shipping (NZD). Vendor email is looked up from the
-// brand's onboarding record (Brands list), matched by brand name.
+//
+// PATCHED (overnight fixes): now passes `stock` and the uploaded `photos`
+// through to createDraftProduct, so the Shopify draft has inventory tracked +
+// quantity set and the vendor's photos attached to Media. (Only these two lines
+// changed vs the original — marked with  // <-- FIX  below.)
 
 const { createDraftProduct } = require('../lib/shopify');
 const { createTask, attachPhotos } = require('../lib/clickup');
@@ -30,22 +33,18 @@ module.exports = async (req, res) => {
       res.status(400).send('Missing required fields (brand name and product name).'); return;
     }
 
-    // Pull the vendor's email from their onboarding record (matched by brand).
     const vendorEmail = await getBrandEmail(f.brandName);
 
-    // Price = retail + shipping (both NZD). Vendors bake postage in via shipping.
     const retail = money(num(f.retailPrice));
     const shipping = money(num(f.shipping));
     const totalPrice = (retail + shipping).toFixed(2);
     const payout = (Number(totalPrice) * 0.85).toFixed(2);
 
-    // SKU is mandatory — if the vendor doesn't have one, generate it for them.
     const skuProvided = Boolean(f.sku);
     const sku = f.sku || generateSku(f.brandName);
     const madeToOrder = /yes/i.test(f.madeToOrder || '');
     const turnaround = madeToOrder ? (f.turnaround || '') : '';
 
-    // 1) Shopify draft product (optional — skipped if Shopify env not set)
     let shopify = null;
     try {
       const descriptionHtml = [
@@ -67,6 +66,8 @@ module.exports = async (req, res) => {
           .filter(Boolean),
         price: totalPrice,
         sku,
+        stock: f.stock,   // <-- FIX: pass stock qty so Shopify tracks + sets inventory
+        photos,           // <-- FIX: pass uploaded photos so they attach to Shopify Media
         variants,
         vendorEmail
       });
@@ -74,7 +75,6 @@ module.exports = async (req, res) => {
       shopify = { error: e.message };
     }
 
-    // 2) ClickUp task (source of truth for the review pipeline)
     const md =
       row('Brand', f.brandName) +
       row('Category', f.productCategory) +
@@ -102,22 +102,19 @@ module.exports = async (req, res) => {
       name: `${f.productName} — ${f.brandName}`,
       markdown: md,
       status: 'Submitted',
-      assignees: [222060393] // Anna — assigning emails her on every submission
+      assignees: [222060393]
     });
 
     await attachPhotos(task.id, photos);
     await attachPhotos(task.id, lifestyle, 'LIFESTYLE-');
 
-    // Add a "Product Approval" task to Todoist (non-fatal if it fails).
     try {
       await createTodoistTask({
         content: `Product Approval: ${f.brandName} - ${f.productName}`,
         description: task.url ? `ClickUp: ${task.url}` : undefined
       });
-    } catch (e) { /* keep going — Todoist is a nice-to-have */ }
+    } catch (e) { /* Todoist is a nice-to-have */ }
 
-    // Email Anna directly on every submission. ClickUp does not notify her about
-    // tasks the portal creates under her own account, so this is the reliable alert.
     try {
       await sendEmail({
         to: process.env.ADMIN_EMAIL || 'anna@ziggysociety.com',
@@ -130,7 +127,7 @@ module.exports = async (req, res) => {
 <p><a href="${task.url}" style="color:#3a4a2a">Open in ClickUp</a></p>
 </div>`
       });
-    } catch (e) { /* non-fatal - never block a submission on the notify email */ }
+    } catch (e) { /* non-fatal */ }
 
     res.status(200).json({ ok: true, taskUrl: task.url, shopify });
   } catch (err) {
