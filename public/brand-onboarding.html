@@ -106,6 +106,13 @@
 </div>
 </div>
 
+<div class="section-label">Payment details</div>
+<div class="field">
+<label>NZ bank account number <span class="req">*</span></label>
+<p class="helper">Where we pay out your sales, less our 15% commission. New Zealand bank account, format 00-0000-0000000-00. Kept private.</p>
+<input type="text" name="bankAccount" placeholder="00-0000-0000000-00" required />
+</div>
+
 <div class="section-label">Your brand</div>
 <div class="field">
 <label>Tagline / short bio</label>
@@ -208,8 +215,8 @@ e.preventDefault();
 const fields = {};
 new FormData(form).forEach((v, k) => { fields[k] = v; });
 
-if (!fields.brandName || !fields.contactEmail || !fields.location || !fields.instagram || !fields.ziggyCriteria) {
-statusEl.textContent = 'Please fill in the required fields (Instagram link is required).';
+if (!fields.brandName || !fields.contactEmail || !fields.location || !fields.instagram || !fields.ziggyCriteria || !fields.bankAccount) {
+statusEl.textContent = 'Please fill in the required fields (Instagram link and NZ bank account are required).';
 statusEl.className = 'status err';
 return;
 }
