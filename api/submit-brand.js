@@ -45,6 +45,8 @@ module.exports = async (req, res) => {
       row('Location', f.location) +
       row('Website', f.website) +
       row('Instagram / socials', f.socials) +
+      `\n## Payment\n\n` +
+      row('NZ bank account', f.bankAccount) +
       `\n## Brand\n\n` +
       row('Tagline / bio', f.bio) +
       row('Production method & materials', f.production) +
