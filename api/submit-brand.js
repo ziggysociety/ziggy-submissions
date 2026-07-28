@@ -13,7 +13,22 @@ const FIELD = {
   location: 'c84471df-af5f-4c01-b151-396d3f82957d',
   production: '367c3ed8-779b-43f3-a382-60464be2c177',
   storePlatform: 'dd97df18-55bf-4e9d-a666-ac437cc53fb8',
-  madeReady: '239595c8-22ea-49e8-bcc9-d91f68763209'
+  madeReady: '239595c8-22ea-49e8-bcc9-d91f68763209',
+  storeUrl: '2f3834b3-d1dc-4765-a5c4-d8e52de2b1a7',
+  shipsFrom: '034e4c2d-6e07-4303-836b-3f1f19479830',
+  accountHolder: 'aa9d0c31-cb8d-4a02-9732-4354d75c77f4',
+  bankCountry: '3d1e93d3-1bfc-4d5d-b4b9-3d00845184d7',
+  nzAccount: 'f11683b5-ae02-4390-a53a-85ed2819b89c',
+  auBsb: '5124ca28-a7b2-422d-94c7-087b406397f1',
+  auAccount: 'd48ec1ad-fcd6-487b-858b-b364b9c3dd98'
+};
+const SHIPS_FROM_OPTION = {
+  'New Zealand': '1140771b-7f50-4951-90ab-24c391c884a5',
+  'Australia': 'af8c3f66-de70-4f02-bdca-faa5180d942b'
+};
+const BANK_COUNTRY_OPTION = {
+  'New Zealand': 'a4c5d224-029d-4dcc-91fa-79b148fb1399',
+  'Australia': 'f7b70017-4ac4-4a14-93c0-96a5530f739f'
 };
 const MADE_READY_OPTION = {
   'Made to Order': '349bb0be-728d-441f-95ed-58733f4f1352',
@@ -45,14 +60,21 @@ module.exports = async (req, res) => {
       row('Location', f.location) +
       row('Website', f.website) +
       row('Instagram / socials', f.socials) +
-      `\n## Payment\n\n` +
-      row('NZ bank account', f.bankAccount) +
+      `\n## Shipping\n\n` +
+      row('Ships from', f.shipFrom) +
+      `\n## Payout\n\n` +
+      row('Account holder', f.accountHolder) +
+      row('Bank country', f.bankCountry) +
+      row('NZ account', f.nzAccount) +
+      row('AU BSB', f.auBsb) +
+      row('AU account', f.auAccount) +
       `\n## Brand\n\n` +
       row('Tagline / bio', f.bio) +
       row('Production method & materials', f.production) +
       row('Made to order / ready made', f.madeReady) +
       row('Typical turnaround time', f.turnaround) +
       row('Currently sells on', f.storePlatform) +
+      row('Store URL', f.storeUrl) +
       `\n## ZIGGY Certified — how they meet the five criteria\n\n` +
       row('Their answer', f.ziggyCriteria) +
       `\n---\n_Submitted via the ZIGGY brand onboarding form._`;
@@ -62,9 +84,20 @@ module.exports = async (req, res) => {
       { id: FIELD.location, value: f.location },
       { id: FIELD.production, value: f.production },
       { id: FIELD.storePlatform, value: f.storePlatform || f.website },
+      { id: FIELD.storeUrl, value: f.storeUrl },
+      { id: FIELD.accountHolder, value: f.accountHolder },
+      { id: FIELD.nzAccount, value: f.nzAccount },
+      { id: FIELD.auBsb, value: f.auBsb },
+      { id: FIELD.auAccount, value: f.auAccount },
     ];
     if (f.madeReady && MADE_READY_OPTION[f.madeReady]) {
       customFields.push({ id: FIELD.madeReady, value: MADE_READY_OPTION[f.madeReady] });
+    }
+    if (f.shipFrom && SHIPS_FROM_OPTION[f.shipFrom]) {
+      customFields.push({ id: FIELD.shipsFrom, value: SHIPS_FROM_OPTION[f.shipFrom] });
+    }
+    if (f.bankCountry && BANK_COUNTRY_OPTION[f.bankCountry]) {
+      customFields.push({ id: FIELD.bankCountry, value: BANK_COUNTRY_OPTION[f.bankCountry] });
     }
 
     const task = await createTask({
