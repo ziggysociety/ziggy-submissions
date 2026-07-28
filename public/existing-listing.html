@@ -68,16 +68,21 @@
         <p class="helper"><strong>Copy the exact SKU from your store</strong> — this is what keeps your stock in sync, so it must match precisely.</p>
         <input type="text" name="sku" id="sku" required />
       </div>
+      <div class="field" id="singleStockField">
+        <label>Stock quantity available</label>
+        <input type="number" name="stock" min="0" placeholder="e.g. 12" />
+      </div>
 
       <div class="field" id="variantsField" hidden>
         <label>Sizes — add every size with its own SKU <span class="req">*</span></label>
-        <p class="helper"><strong>Add all of your sizes here</strong> and paste each one's SKU <strong>exactly as it appears in your store</strong>. Stock syncs per SKU, so every size needs its own unique code — don't miss any.</p>
+        <p class="helper"><strong>Add all of your sizes here</strong> and paste each one's SKU <strong>exactly as it appears in your store</strong>. Stock syncs per SKU, so every size needs its own unique code — don't miss any. Enter the stock quantity for each size too.</p>
         <div class="variants-wrap">
-          <div class="varhead"><span>Size</span><span>SKU</span><span></span></div>
+          <div class="varhead"><span>Size</span><span>SKU</span><span>Qty</span><span></span></div>
           <div id="variantRows">
             <div class="varrow">
               <input type="text" class="v-name" placeholder="e.g. Small" />
               <input type="text" class="v-sku" placeholder="SKU for this size" />
+              <input type="number" class="v-qty" min="0" placeholder="Qty" />
               <button type="button" class="var-remove" aria-label="Remove this size" title="Remove">&minus;</button>
             </div>
           </div>

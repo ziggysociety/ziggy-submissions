@@ -138,12 +138,13 @@
 </div>
 <div class="field" id="auBsbField" style="display:none">
 <label>BSB <span class="req">*</span></label>
-<p class="helper">6 digits.</p>
-<input type="text" name="auBsb" id="auBsb" placeholder="123-456" inputmode="numeric" />
+<p class="helper">6-digit bank-state-branch number, shown as 3 digits, a hyphen, then 3 (e.g. 062-000).</p>
+<input type="text" name="auBsb" id="auBsb" placeholder="062-000" inputmode="numeric" maxlength="7" />
 </div>
 <div class="field" id="auAccountField" style="display:none">
 <label>Account number <span class="req">*</span></label>
-<input type="text" name="auAccount" id="auAccount" placeholder="Your AU account number" inputmode="numeric" />
+<p class="helper">Your AU account number — usually 5 to 9 digits (no BSB, no spaces).</p>
+<input type="text" name="auAccount" id="auAccount" placeholder="e.g. 12345678" inputmode="numeric" maxlength="10" />
 </div>
 
 <div class="section-label">Your brand</div>

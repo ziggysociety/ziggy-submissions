@@ -58,7 +58,7 @@
           <input type="text" name="colours" />
         </div>
       </div>
-      <div class="grid2">
+      <div class="grid2" id="singleStockField">
         <div class="field">
           <label>Stock quantity available</label>
           <input type="number" name="stock" min="0" />
@@ -101,13 +101,14 @@
 
       <div class="field" id="variantsField" hidden>
         <label>Sizes / variants — each needs its own SKU <span class="req">*</span></label>
-        <p class="helper">Add each size and paste the matching SKU <strong>exactly as it appears in your store</strong>. Stock syncs per SKU, so each one must be unique.</p>
+        <p class="helper">Add each size, paste the matching SKU <strong>exactly as it appears in your store</strong> (stock syncs per SKU, so each must be unique), and enter the stock quantity for that size.</p>
         <div class="variants-wrap">
-          <div class="varhead"><span>Variant / size</span><span>SKU</span><span></span></div>
+          <div class="varhead"><span>Variant / size</span><span>SKU</span><span>Qty</span><span></span></div>
           <div id="variantRows">
             <div class="varrow">
               <input type="text" class="v-name" placeholder="e.g. Small" />
               <input type="text" class="v-sku" placeholder="SKU for this size" />
+              <input type="number" class="v-qty" min="0" placeholder="Qty" />
               <button type="button" class="var-remove" aria-label="Remove this variant" title="Remove">&minus;</button>
             </div>
           </div>

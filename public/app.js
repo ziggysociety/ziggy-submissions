@@ -135,6 +135,7 @@
   const variantsField = document.getElementById('variantsField');
   const variantRows   = document.getElementById('variantRows');
   const addVariant    = document.getElementById('addVariant');
+  const singleStockField = document.getElementById('singleStockField');
   const skuOriginallyRequired = skuInput ? skuInput.required : false;
 
   function syncVariants() {
@@ -142,6 +143,8 @@
     const multi = /yes/i.test(hasVariants.value);
     variantsField.hidden = !multi;
     singleSkuField.hidden = multi;
+    // The single stock field only applies to single-variant products.
+    if (singleStockField) singleStockField.hidden = multi;
     // Single SKU keeps its original required state, but never required when multi.
     if (skuInput) skuInput.required = !multi && skuOriginallyRequired;
   }
@@ -149,7 +152,7 @@
     const btn = row.querySelector('.var-remove');
     if (btn) btn.addEventListener('click', () => {
       if (variantRows.querySelectorAll('.varrow').length > 1) row.remove();
-      else { row.querySelector('.v-name').value = ''; row.querySelector('.v-sku').value = ''; }
+      else { row.querySelector('.v-name').value = ''; row.querySelector('.v-sku').value = ''; const q0 = row.querySelector('.v-qty'); if (q0) q0.value = ''; }
     });
   }
   if (hasVariants) {
@@ -160,16 +163,21 @@
       const row = variantRows.querySelector('.varrow').cloneNode(true);
       row.querySelector('.v-name').value = '';
       row.querySelector('.v-sku').value = '';
+      const qn = row.querySelector('.v-qty'); if (qn) qn.value = '';
       variantRows.appendChild(row);
       bindRemove(row);
     });
   }
   function collectVariants() {
     if (!hasVariants || !/yes/i.test(hasVariants.value)) return [];
-    return Array.from(variantRows.querySelectorAll('.varrow')).map(r => ({
-      name: r.querySelector('.v-name').value.trim(),
-      sku:  r.querySelector('.v-sku').value.trim()
-    })).filter(v => v.name && v.sku);
+    return Array.from(variantRows.querySelectorAll('.varrow')).map(r => {
+      const qEl = r.querySelector('.v-qty');
+      return {
+        name: r.querySelector('.v-name').value.trim(),
+        sku:  r.querySelector('.v-sku').value.trim(),
+        qty:  qEl ? qEl.value.trim() : ''
+      };
+    }).filter(v => v.name && v.sku);
   }
 
   /* ---- submit ---- */

@@ -203,7 +203,7 @@ input:focus, select:focus, textarea:focus {
 
 /* Variant repeater */
 .variants-wrap { margin: 8px 0 4px; }
-.varhead, .varrow { display: grid; grid-template-columns: 1fr 1fr 34px; gap: 10px; align-items: center; }
+.varhead, .varrow { display: grid; grid-template-columns: 1fr 1fr 90px 34px; gap: 10px; align-items: center; }
 .varhead { font-family: var(--font-head); font-size: 12px; letter-spacing: .04em; color: #8a8b76; margin-bottom: 6px; }
 .varrow { margin-bottom: 9px; }
 .var-remove {
