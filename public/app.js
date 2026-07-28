@@ -113,23 +113,20 @@
 
   /* ---- live price = retail + shipping (NZD), payout after 15% ---- */
   const retailEl = document.getElementById('retailPrice');
-  const shippingEl = document.getElementById('shipping');
   const priceBox = document.getElementById('priceBox');
   const zPriceEl = document.getElementById('zPrice');
   const zPayoutEl = document.getElementById('zPayout');
   function toNum(v) { const m = String(v || '').replace(',', '').match(/[\d.]+/); return m ? parseFloat(m[0]) : NaN; }
   function calcPrice() {
-    if (!retailEl || !shippingEl || !priceBox) return;
-    const r = toNum(retailEl.value), s = toNum(shippingEl.value);
-    if (isNaN(r) && isNaN(s)) { priceBox.hidden = true; return; }
-    const total = (isNaN(r) ? 0 : r) + (isNaN(s) ? 0 : s);
+    if (!retailEl || !priceBox) return;
+    const r = toNum(retailEl.value);
+    if (isNaN(r)) { priceBox.hidden = true; return; }
     priceBox.hidden = false;
-    if (zPriceEl) zPriceEl.textContent = total.toFixed(2);
-    if (zPayoutEl) zPayoutEl.textContent = (total * 0.85).toFixed(2);
+    if (zPriceEl) zPriceEl.textContent = r.toFixed(2);
+    if (zPayoutEl) zPayoutEl.textContent = (r * 0.85).toFixed(2);
   }
-  if (retailEl && shippingEl) {
+  if (retailEl) {
     retailEl.addEventListener('input', calcPrice);
-    shippingEl.addEventListener('input', calcPrice);
   }
 
   /* ---- variants (single vs multiple sizes) ---- */
