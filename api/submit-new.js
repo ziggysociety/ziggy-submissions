@@ -89,7 +89,7 @@ module.exports = async (req, res) => {
       row('Stock qty', f.stock) +
       (variants.length
         ? `**Sizes / variants (each its own SKU):**\n` +
-          variants.map(v => `- ${v.name} · SKU ${v.sku}`).join('\n') + '\n'
+          variants.map(v => `- ${v.name} · SKU ${v.sku}${v.qty ? ` · qty ${v.qty}` : ``}`).join('\n') + '\n'
         : row('SKU', sku + (skuProvided ? '' : ' _(auto-generated)_'))) +
       row('Made to order', madeToOrder ? `Yes — turnaround: ${turnaround || 'TBC'}` : 'No') +
       row('Ethical/sustainability', f.ethics) +
