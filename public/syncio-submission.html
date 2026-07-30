@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shopify / Syncio product · ZIGGY SOCIETY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="logo.svg" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img src="logo.svg" alt="ZIGGY Society" />
+      <div class="name">Ziggy Society</div>
+    </div>
+    <h1>Shopify product (via Syncio)</h1>
+    <p class="lede">Your store's on Shopify and connected through Syncio? Just tell us the product and your NZD price — we'll import it from Syncio and keep stock in sync. Complete brand onboarding first so we can match this to your brand.</p>
+
+    <form id="ziggy-form" data-endpoint="/api/submit-syncio" novalidate>
+
+      <div class="field">
+        <label>Brand name <span class="req">*</span></label>
+        <p class="helper">Use the exact brand name you onboarded with — it must match so we can link and pay you.</p>
+        <input type="text" name="brandName" required />
+      </div>
+
+      <div class="field">
+        <label>Product name <span class="req">*</span></label>
+        <p class="helper">The product's name as it appears in your store.</p>
+        <input type="text" name="productName" required />
+      </div>
+
+      <div class="field">
+        <label>Product link on your store <span class="optional">(optional)</span></label>
+        <p class="helper">Paste the product page link if you have it — it helps us find the right product in Syncio.</p>
+        <input type="url" name="productLink" placeholder="https://yourstore.com/products/…" />
+      </div>
+
+      <div class="section-label">Price (NZD)</div>
+      <div class="specguide">
+        <strong>All prices in NZD — item only</strong>
+        <p>Enter the product price only, in NZD. We set this on import, so it's independent of your own store's price or currency. Don't add postage — shipping is separate.</p>
+      </div>
+      <div class="field">
+        <label>ZIGGY price (NZD, item only) <span class="req">*</span></label>
+        <input type="text" name="nzdPrice" inputmode="decimal" placeholder="e.g. 49.00" required />
+      </div>
+
+      <div class="specguide">
+        <strong>How shipping works</strong>
+        <p>Shipping is charged separately at checkout — a flat ZIGGY rate of about $10 (local) or $15 (cross-border NZ&#8596;AU), in the customer's currency. It's not baked into your price.</p>
+        <p>Our <strong>15% commission is on your product price only</strong>; shipping passes through to you. If your real postage runs higher (heavier or bulky items), add a small buffer to your price. We don't need a SKU here — it comes through automatically from Syncio.</p>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="btn" id="submitBtn">Submit product</button>
+        <a class="back" href="index.html">Back</a>
+      </div>
+      <div class="status" id="status" role="status"></div>
+    </form>
+
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

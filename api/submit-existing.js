@@ -42,11 +42,11 @@ module.exports = async (req, res) => {
     const madeToOrder = /yes/i.test(f.madeToOrder || '');
     const turnaround = madeToOrder ? (f.turnaround || '') : '';
 
-    // Price = retail + shipping (NZD), entered by the vendor (avoids AUD/NZD mix).
-    const retail = money(num(f.retailPrice));
-    const shipping = money(num(f.shipping));
-    const totalPrice = (retail + shipping).toFixed(2);
-    const payout = (Number(totalPrice) * 0.85).toFixed(2);
+    // Price = item only (NZD), entered by the vendor. Shipping is charged
+    // separately and passes through to the vendor; 15% commission on product only.
+    const itemPrice = money(num(f.retailPrice));
+    const totalPrice = itemPrice.toFixed(2);
+    const payout = (itemPrice * 0.85).toFixed(2);
 
     // 2) Shopify draft, pre-populated from the fetched data where possible.
     let shopify = null;
@@ -64,6 +64,8 @@ module.exports = async (req, res) => {
           .filter(Boolean),
         price: totalPrice,
         sku,
+        stock: f.stock,
+        photos,
         variants,
         imageUrls: fetched.ok ? fetched.imageUrls : [],
         vendorEmail
@@ -79,9 +81,10 @@ module.exports = async (req, res) => {
       row('Product link', f.productLink) +
       (variants.length
         ? `**Sizes (each its own store SKU):**\n` +
-          variants.map(v => `- ${v.name} · SKU ${v.sku}`).join('\n') + '\n'
+          variants.map(v => `- ${v.name} · SKU ${v.sku}${v.qty ? ` · qty ${v.qty}` : ``}`).join('\n') + '\n'
         : row('SKU', sku + (f.sku ? ' _(vendor store SKU)_' : ' _(auto)_'))) +
-      `**Pricing (NZD):** retail ${retail.toFixed(2)} + shipping ${shipping.toFixed(2)} = **${totalPrice}** (est. payout after 15%: ${payout})\n` +
+      `**Price (NZD, item only):** ${totalPrice} — shipping charged separately (passes through to vendor). Est. payout after 15% commission on product: ${payout}\n` +
+      row('Stock qty', f.stock) +
       row('Made to order', madeToOrder ? `Yes — turnaround: ${turnaround || 'TBC'}` : 'No') +
       row('Ships from', f.shipFrom) +
       row('Tracked shipping?', f.tracked) +

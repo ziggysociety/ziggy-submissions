@@ -58,7 +58,7 @@
           <input type="text" name="colours" />
         </div>
       </div>
-      <div class="grid2">
+      <div class="grid2" id="singleStockField">
         <div class="field">
           <label>Stock quantity available</label>
           <input type="number" name="stock" min="0" />
@@ -68,23 +68,16 @@
 
       <div class="section-label">Price (NZD)</div>
       <div class="specguide">
-        <strong>All prices in NZD</strong>
-        <p>Enter your item's retail price and the postage to add — we'll show your ZIGGY listing price.</p>
+        <strong>All prices in NZD — item only</strong>
+        <p>Enter your product price only. Shipping is charged separately at checkout and passes through to you, so don't add postage here. If your own site is in AUD, convert to NZD.</p>
       </div>
-      <div class="grid2">
-        <div class="field">
-          <label>Retail price — item only (NZD) <span class="req">*</span></label>
-          <input type="text" name="retailPrice" id="retailPrice" inputmode="decimal" placeholder="e.g. 49.00" required />
-        </div>
-        <div class="field">
-          <label>Shipping to add (NZD) <span class="req">*</span></label>
-          <p class="helper">Your postage for tracked delivery within New Zealand.</p>
-          <input type="text" name="shipping" id="shipping" inputmode="decimal" placeholder="e.g. 8.50" required />
-        </div>
+      <div class="field">
+        <label>Price — item only (NZD) <span class="req">*</span></label>
+        <input type="text" name="retailPrice" id="retailPrice" inputmode="decimal" placeholder="e.g. 49.00" required />
       </div>
       <div class="pricebox" id="priceBox" hidden>
-        <span>ZIGGY listing price: <strong id="zPrice">—</strong> NZD</span>
-        <span class="pnote">Your payout after 15%: <strong id="zPayout">—</strong> NZD</span>
+        <span>Your ZIGGY price (item only): <strong id="zPrice">—</strong> NZD</span>
+        <span class="pnote">Est. payout after 15% (product only): <strong id="zPayout">—</strong> NZD · shipping passes through to you</span>
       </div>
 
       <div class="section-label">Sizes &amp; SKU</div>
@@ -108,13 +101,14 @@
 
       <div class="field" id="variantsField" hidden>
         <label>Sizes / variants — each needs its own SKU <span class="req">*</span></label>
-        <p class="helper">Add each size and paste the matching SKU <strong>exactly as it appears in your store</strong>. Stock syncs per SKU, so each one must be unique.</p>
+        <p class="helper">Add each size, paste the matching SKU <strong>exactly as it appears in your store</strong> (stock syncs per SKU, so each must be unique), and enter the stock quantity for that size.</p>
         <div class="variants-wrap">
-          <div class="varhead"><span>Variant / size</span><span>SKU</span><span></span></div>
+          <div class="varhead"><span>Variant / size</span><span>SKU</span><span>Qty</span><span></span></div>
           <div id="variantRows">
             <div class="varrow">
               <input type="text" class="v-name" placeholder="e.g. Small" />
               <input type="text" class="v-sku" placeholder="SKU for this size" />
+              <input type="number" class="v-qty" min="0" placeholder="Qty" />
               <button type="button" class="var-remove" aria-label="Remove this variant" title="Remove">&minus;</button>
             </div>
           </div>
@@ -161,8 +155,8 @@
       <div class="section-label">Shipping</div>
       <div class="specguide">
         <strong>How shipping works</strong>
-        <p>Customers get <strong>free shipping</strong>, so your postage is baked into your price (you added it above). Pick a fair amount that covers tracked delivery anywhere in New Zealand from wherever you ship.</p>
-        <p>Remember ZIGGY's <strong>15% commission comes off the full listed price</strong> (item + shipping), so factor that in. Always ship tracked anywhere in New Zealand, and dispatch within 3 business days (or your stated made-to-order turnaround).</p>
+        <p>Shipping is charged separately at checkout — a flat ZIGGY rate of about $10 (local) or $15 (cross-border NZ&#8596;AU), in the customer's currency. It's not baked into your price.</p>
+        <p>Our <strong>15% commission is on your product price only</strong>; shipping passes through to you. If your real postage runs higher (heavier or bulky items), add a small buffer to your price. Always ship tracked to both NZ and Australia, and dispatch within 3 business days (or your stated made-to-order turnaround).</p>
       </div>
       <div class="grid2">
         <div class="field">
@@ -184,7 +178,7 @@
       <div class="field">
         <label class="check">
           <input type="checkbox" name="tracked" value="Yes" required />
-          <span>I confirm every order will be sent <strong>tracked</strong>, anywhere in <strong>New Zealand</strong>. <span class="req">*</span></span>
+          <span>I confirm every order will be sent <strong>tracked</strong>, to both <strong>NZ and Australia</strong>. <span class="req">*</span></span>
         </label>
       </div>
 

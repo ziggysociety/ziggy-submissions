@@ -33,11 +33,11 @@ module.exports = async (req, res) => {
     // Pull the vendor's email from their onboarding record (matched by brand).
     const vendorEmail = await getBrandEmail(f.brandName);
 
-    // Price = retail + shipping (both NZD). Vendors bake postage in via shipping.
-    const retail = money(num(f.retailPrice));
-    const shipping = money(num(f.shipping));
-    const totalPrice = (retail + shipping).toFixed(2);
-    const payout = (Number(totalPrice) * 0.85).toFixed(2);
+    // Price = item only (NZD). Shipping is charged separately at checkout and
+    // passes through 100% to the vendor; our 15% commission is on product only.
+    const itemPrice = money(num(f.retailPrice));
+    const totalPrice = itemPrice.toFixed(2);
+    const payout = (itemPrice * 0.85).toFixed(2);
 
     // SKU is mandatory — if the vendor doesn't have one, generate it for them.
     const skuProvided = Boolean(f.sku);
@@ -67,6 +67,8 @@ module.exports = async (req, res) => {
           .filter(Boolean),
         price: totalPrice,
         sku,
+        stock: f.stock,   // pass stock qty so Shopify tracks + sets inventory
+        photos,           // pass uploaded photos so they attach to Shopify Media
         variants,
         vendorEmail
       });
@@ -83,11 +85,11 @@ module.exports = async (req, res) => {
       row('Description', f.description) +
       row('Materials/fabric', f.materials) +
       row('Colours', f.colours) +
-      `**Pricing (NZD):** retail ${retail.toFixed(2)} + shipping ${shipping.toFixed(2)} = **${totalPrice}** (est. payout after 15%: ${payout})\n` +
+      `**Price (NZD, item only):** ${totalPrice} — shipping charged separately (passes through to vendor). Est. payout after 15% commission on product: ${payout}\n` +
       row('Stock qty', f.stock) +
       (variants.length
         ? `**Sizes / variants (each its own SKU):**\n` +
-          variants.map(v => `- ${v.name} · SKU ${v.sku}`).join('\n') + '\n'
+          variants.map(v => `- ${v.name} · SKU ${v.sku}${v.qty ? ` · qty ${v.qty}` : ``}`).join('\n') + '\n'
         : row('SKU', sku + (skuProvided ? '' : ' _(auto-generated)_'))) +
       row('Made to order', madeToOrder ? `Yes — turnaround: ${turnaround || 'TBC'}` : 'No') +
       row('Ethical/sustainability', f.ethics) +

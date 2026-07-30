@@ -113,23 +113,20 @@
 
   /* ---- live price = retail + shipping (NZD), payout after 15% ---- */
   const retailEl = document.getElementById('retailPrice');
-  const shippingEl = document.getElementById('shipping');
   const priceBox = document.getElementById('priceBox');
   const zPriceEl = document.getElementById('zPrice');
   const zPayoutEl = document.getElementById('zPayout');
   function toNum(v) { const m = String(v || '').replace(',', '').match(/[\d.]+/); return m ? parseFloat(m[0]) : NaN; }
   function calcPrice() {
-    if (!retailEl || !shippingEl || !priceBox) return;
-    const r = toNum(retailEl.value), s = toNum(shippingEl.value);
-    if (isNaN(r) && isNaN(s)) { priceBox.hidden = true; return; }
-    const total = (isNaN(r) ? 0 : r) + (isNaN(s) ? 0 : s);
+    if (!retailEl || !priceBox) return;
+    const r = toNum(retailEl.value);
+    if (isNaN(r)) { priceBox.hidden = true; return; }
     priceBox.hidden = false;
-    if (zPriceEl) zPriceEl.textContent = total.toFixed(2);
-    if (zPayoutEl) zPayoutEl.textContent = (total * 0.85).toFixed(2);
+    if (zPriceEl) zPriceEl.textContent = r.toFixed(2);
+    if (zPayoutEl) zPayoutEl.textContent = (r * 0.85).toFixed(2);
   }
-  if (retailEl && shippingEl) {
+  if (retailEl) {
     retailEl.addEventListener('input', calcPrice);
-    shippingEl.addEventListener('input', calcPrice);
   }
 
   /* ---- variants (single vs multiple sizes) ---- */
@@ -138,6 +135,7 @@
   const variantsField = document.getElementById('variantsField');
   const variantRows   = document.getElementById('variantRows');
   const addVariant    = document.getElementById('addVariant');
+  const singleStockField = document.getElementById('singleStockField');
   const skuOriginallyRequired = skuInput ? skuInput.required : false;
 
   function syncVariants() {
@@ -145,6 +143,8 @@
     const multi = /yes/i.test(hasVariants.value);
     variantsField.hidden = !multi;
     singleSkuField.hidden = multi;
+    // The single stock field only applies to single-variant products.
+    if (singleStockField) singleStockField.hidden = multi;
     // Single SKU keeps its original required state, but never required when multi.
     if (skuInput) skuInput.required = !multi && skuOriginallyRequired;
   }
@@ -152,7 +152,7 @@
     const btn = row.querySelector('.var-remove');
     if (btn) btn.addEventListener('click', () => {
       if (variantRows.querySelectorAll('.varrow').length > 1) row.remove();
-      else { row.querySelector('.v-name').value = ''; row.querySelector('.v-sku').value = ''; }
+      else { row.querySelector('.v-name').value = ''; row.querySelector('.v-sku').value = ''; const q0 = row.querySelector('.v-qty'); if (q0) q0.value = ''; }
     });
   }
   if (hasVariants) {
@@ -163,16 +163,21 @@
       const row = variantRows.querySelector('.varrow').cloneNode(true);
       row.querySelector('.v-name').value = '';
       row.querySelector('.v-sku').value = '';
+      const qn = row.querySelector('.v-qty'); if (qn) qn.value = '';
       variantRows.appendChild(row);
       bindRemove(row);
     });
   }
   function collectVariants() {
     if (!hasVariants || !/yes/i.test(hasVariants.value)) return [];
-    return Array.from(variantRows.querySelectorAll('.varrow')).map(r => ({
-      name: r.querySelector('.v-name').value.trim(),
-      sku:  r.querySelector('.v-sku').value.trim()
-    })).filter(v => v.name && v.sku);
+    return Array.from(variantRows.querySelectorAll('.varrow')).map(r => {
+      const qEl = r.querySelector('.v-qty');
+      return {
+        name: r.querySelector('.v-name').value.trim(),
+        sku:  r.querySelector('.v-sku').value.trim(),
+        qty:  qEl ? qEl.value.trim() : ''
+      };
+    }).filter(v => v.name && v.sku);
   }
 
   /* ---- submit ---- */

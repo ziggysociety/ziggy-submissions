@@ -106,11 +106,45 @@
 </div>
 </div>
 
-<div class="section-label">Payment details</div>
+<div class="section-label">Shipping</div>
 <div class="field">
-<label>NZ bank account number <span class="req">*</span></label>
-<p class="helper">Where we pay out your sales, less our 15% commission. New Zealand bank account, format 00-0000-0000000-00. Kept private.</p>
-<input type="text" name="bankAccount" placeholder="00-0000-0000000-00" required />
+<label>Where do you ship from? <span class="req">*</span></label>
+<p class="helper">The country you dispatch orders from. This sets your ZIGGY shipping profile.</p>
+<select name="shipFrom" id="shipFrom" required>
+<option value="">Select…</option>
+<option>New Zealand</option>
+<option>Australia</option>
+</select>
+</div>
+
+<div class="section-label">Payout details</div>
+<p class="helper">Where we pay out your sales, less our 15% commission. Paid via Wise — NZ accounts in NZD, AU accounts in AUD. No SWIFT/BIC needed. Kept private.</p>
+<div class="field">
+<label>Account holder name <span class="req">*</span></label>
+<input type="text" name="accountHolder" placeholder="Name on the bank account" required />
+</div>
+<div class="field">
+<label>Bank country <span class="req">*</span></label>
+<select name="bankCountry" id="bankCountry" required>
+<option value="">Select…</option>
+<option>New Zealand</option>
+<option>Australia</option>
+</select>
+</div>
+<div class="field" id="nzAccountField" style="display:none">
+<label>NZ account number <span class="req">*</span></label>
+<p class="helper">Format 00-0000-0000000-00.</p>
+<input type="text" name="nzAccount" id="nzAccount" placeholder="00-0000-0000000-00" />
+</div>
+<div class="field" id="auBsbField" style="display:none">
+<label>BSB <span class="req">*</span></label>
+<p class="helper">6-digit bank-state-branch number, shown as 3 digits, a hyphen, then 3 (e.g. 062-000).</p>
+<input type="text" name="auBsb" id="auBsb" placeholder="062-000" inputmode="numeric" maxlength="7" />
+</div>
+<div class="field" id="auAccountField" style="display:none">
+<label>Account number <span class="req">*</span></label>
+<p class="helper">Your AU account number — usually 5 to 9 digits (no BSB, no spaces).</p>
+<input type="text" name="auAccount" id="auAccount" placeholder="e.g. 12345678" inputmode="numeric" maxlength="10" />
 </div>
 
 <div class="section-label">Your brand</div>
@@ -139,8 +173,19 @@
 <input type="text" name="turnaround" placeholder="e.g. 2–3 weeks" />
 </div>
 <div class="field">
-<label>Where do you currently sell?</label>
-<input type="text" name="storePlatform" placeholder="e.g. own Shopify site, markets, Instagram only" />
+<label>Where do you currently sell? <span class="req">*</span></label>
+<p class="helper">This helps us route your products the right way — Shopify stores can sync via Syncio.</p>
+<select name="storePlatform" id="storePlatform" required>
+<option value="">Select…</option>
+<option>Shopify store</option>
+<option>WooCommerce store</option>
+<option>Other website (not Shopify)</option>
+<option>No online store yet</option>
+</select>
+</div>
+<div class="field" id="storeUrlField" style="display:none">
+<label>Store URL <span class="req">*</span></label>
+<input type="url" name="storeUrl" id="storeUrl" placeholder="https://yourstore.com" />
 </div>
 
 <div class="section-label">ZIGGY Certified</div>
@@ -150,7 +195,7 @@
 <p>2. <strong>Ethical</strong> — genuine care for people, planet or community (sustainable materials, fair production, giving back, certified practices).</p>
 <p>3. <strong>Quality</strong> — well-made products to a genuine craft standard (not necessarily premium).</p>
 <p>4. <strong>Story</strong> — an authentic reason to exist, a clear point of view, something worth championing.</p>
-<p>5. <strong>NZ based</strong> — local-first; for brands based and making in Aotearoa New Zealand (Australia coming soon).</p>
+<p>5. <strong>NZ or AU based</strong> — local-first; for brands based and making in Aotearoa New Zealand or Australia.</p>
 </div>
 <div class="field">
 <label>How does your brand meet the five criteria? <span class="req">*</span></label>
@@ -187,6 +232,39 @@ if (!show) turnaroundInput.value = '';
 madeReadySel.addEventListener('change', toggleTurnaround);
 toggleTurnaround();
 
+// Show Store URL only for Shopify / WooCommerce sellers.
+const storePlatformSel = document.getElementById('storePlatform');
+const storeUrlField = document.getElementById('storeUrlField');
+const storeUrlInput = document.getElementById('storeUrl');
+function toggleStoreUrl() {
+const show = storePlatformSel.value === 'Shopify store' || storePlatformSel.value === 'WooCommerce store';
+storeUrlField.style.display = show ? '' : 'none';
+if (storeUrlInput) { storeUrlInput.required = show; if (!show) storeUrlInput.value = ''; }
+}
+storePlatformSel.addEventListener('change', toggleStoreUrl);
+toggleStoreUrl();
+
+// Show NZ vs AU payout fields based on bank country.
+const bankCountrySel = document.getElementById('bankCountry');
+const nzAccountField = document.getElementById('nzAccountField');
+const auBsbField = document.getElementById('auBsbField');
+const auAccountField = document.getElementById('auAccountField');
+const nzAccountInput = document.getElementById('nzAccount');
+const auBsbInput = document.getElementById('auBsb');
+const auAccountInput = document.getElementById('auAccount');
+function toggleBank() {
+const nz = bankCountrySel.value === 'New Zealand';
+const au = bankCountrySel.value === 'Australia';
+nzAccountField.style.display = nz ? '' : 'none';
+auBsbField.style.display = au ? '' : 'none';
+auAccountField.style.display = au ? '' : 'none';
+if (nzAccountInput) { nzAccountInput.required = nz; if (!nz) nzAccountInput.value = ''; }
+if (auBsbInput) { auBsbInput.required = au; if (!au) auBsbInput.value = ''; }
+if (auAccountInput) { auAccountInput.required = au; if (!au) auAccountInput.value = ''; }
+}
+bankCountrySel.addEventListener('change', toggleBank);
+toggleBank();
+
 function readAsDataUrl(file) {
 return new Promise((resolve) => {
 const r = new FileReader();
@@ -215,8 +293,12 @@ e.preventDefault();
 const fields = {};
 new FormData(form).forEach((v, k) => { fields[k] = v; });
 
-if (!fields.brandName || !fields.contactEmail || !fields.location || !fields.instagram || !fields.ziggyCriteria || !fields.bankAccount) {
-statusEl.textContent = 'Please fill in the required fields (Instagram link and NZ bank account are required).';
+const bankOk = fields.bankCountry === 'New Zealand' ? !!fields.nzAccount
+  : fields.bankCountry === 'Australia' ? (!!fields.auBsb && !!fields.auAccount) : false;
+const storeUrlOk = (fields.storePlatform === 'Shopify store' || fields.storePlatform === 'WooCommerce store') ? !!fields.storeUrl : true;
+if (!fields.brandName || !fields.contactEmail || !fields.location || !fields.instagram || !fields.ziggyCriteria
+  || !fields.storePlatform || !storeUrlOk || !fields.shipFrom || !fields.accountHolder || !fields.bankCountry || !bankOk) {
+statusEl.textContent = 'Please fill in all required fields — including where you sell, where you ship from, and your payout details.';
 statusEl.className = 'status err';
 return;
 }
