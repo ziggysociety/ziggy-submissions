@@ -35,6 +35,13 @@ module.exports = async (req, res) => {
     // 1) Try to pull the listing straight from the vendor's site.
     const fetched = await fetchProductFromUrl(f.productLink);
 
+    // Product title: the name the vendor typed wins, because it's deliberate.
+    // Fall back to the scraped title, then to the old generic placeholder.
+    const productName =
+      (f.productName && f.productName.trim()) ||
+      (fetched.ok && fetched.title) ||
+      `${f.brandName} product`;
+
     // SKU: the vendor copies their exact store SKU (required) so stock syncs.
     // For multi-size products each size carries its own SKU (see variants).
     const sku = f.sku || (fetched.ok && fetched.sku) || generateSku(f.brandName);
@@ -56,7 +63,7 @@ module.exports = async (req, res) => {
       if (madeToOrder) descriptionHtml += `<p><strong>Made to order.</strong> Turnaround: ${turnaround || 'TBC'}.</p>`;
 
       shopify = await createDraftProduct({
-        title: (fetched.ok && fetched.title) || `${f.brandName} product`,
+        title: productName,
         descriptionHtml,
         vendor: f.brandName,
         productType: fetched.ok ? fetched.productType : undefined,
@@ -77,6 +84,7 @@ module.exports = async (req, res) => {
     // 3) ClickUp task (source of truth for the review pipeline).
     const md =
       row('Brand', f.brandName) +
+      row('Product name', f.productName) +
       row('Vendor email', vendorEmail || '_not found — has this brand onboarded?_') +
       row('Product link', f.productLink) +
       (variants.length
@@ -100,7 +108,7 @@ module.exports = async (req, res) => {
       (shopify && shopify.error ? `_Shopify draft not created: ${shopify.error}_\n` : '');
 
     const task = await createTask({
-      name: `${(fetched.ok && fetched.title) || f.brandName} — ${f.brandName} (website)`,
+      name: `${productName} — ${f.brandName} (website)`,
       markdown: md,
       status: 'Submitted',
       assignees: [222060393] // Anna — assigning emails her on every submission
@@ -110,7 +118,6 @@ module.exports = async (req, res) => {
     await attachPhotos(task.id, lifestyle, 'LIFESTYLE-');
 
     // Add a "Product Approval" task to Todoist (non-fatal if it fails).
-    const productName = (fetched.ok && fetched.title) || `${f.brandName} product`;
     try {
       await createTodoistTask({
         content: `Product Approval: ${f.brandName} - ${productName}`,
