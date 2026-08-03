@@ -117,8 +117,31 @@
 </select>
 </div>
 
-<div class="section-label">Payout details</div>
-<p class="helper">Where we pay out your sales, less our 15% commission. Paid via Wise — NZ accounts in NZD, AU accounts in AUD. No SWIFT/BIC needed. Kept private.</p>
+<div class="field">
+        <label>Your shipping area <span class="req">*</span></label>
+        <p class="helper">Default is New Zealand and Australia. If cross-Tasman postage doesn't work for you, choose a single country instead of raising your prices &mdash; we'll hide your products from shoppers in the other market. This is recorded in Schedule A of your Seller Agreement.</p>
+        <select name="shippingArea" id="shippingArea" required>
+          <option value="">Select&hellip;</option>
+          <option value="NZ + AU">New Zealand and Australia</option>
+          <option value="NZ only">New Zealand only</option>
+          <option value="AU only">Australia only</option>
+        </select>
+      </div>
+
+      <div class="section-label">Price parity</div>
+      <div class="specguide">
+        <strong>Your ZIGGY prices must match your own</strong>
+        <p>Every product you list with us must be priced the same as it is on your own website. Please don't raise your ZIGGY price to cover postage or commission &mdash; shipping is charged separately at checkout and passes through to you in full. You may round to a neat NZD figure, but not inflate.</p>
+      </div>
+      <div class="field">
+        <label class="check">
+          <input type="checkbox" name="parity" value="Yes" required />
+          <span>I agree to keep my ZIGGY prices in line with my own retail prices. <span class="req">*</span></span>
+        </label>
+      </div>
+
+      <div class="section-label">Payout details</div>
+<p class="helper">Where we pay out your sales, less our commission (15% for founding sellers, 20% for sellers joining later). Paid via Wise — NZ accounts in NZD, AU accounts in AUD. No SWIFT/BIC needed. Kept private.</p>
 <div class="field">
 <label>Account holder name <span class="req">*</span></label>
 <input type="text" name="accountHolder" placeholder="Name on the bank account" required />
@@ -297,8 +320,8 @@ const bankOk = fields.bankCountry === 'New Zealand' ? !!fields.nzAccount
   : fields.bankCountry === 'Australia' ? (!!fields.auBsb && !!fields.auAccount) : false;
 const storeUrlOk = (fields.storePlatform === 'Shopify store' || fields.storePlatform === 'WooCommerce store') ? !!fields.storeUrl : true;
 if (!fields.brandName || !fields.contactEmail || !fields.location || !fields.instagram || !fields.ziggyCriteria
-  || !fields.storePlatform || !storeUrlOk || !fields.shipFrom || !fields.accountHolder || !fields.bankCountry || !bankOk) {
-statusEl.textContent = 'Please fill in all required fields — including where you sell, where you ship from, and your payout details.';
+  || !fields.storePlatform || !storeUrlOk || !fields.shipFrom || !fields.shippingArea || !fields.parity || !fields.accountHolder || !fields.bankCountry || !bankOk) {
+statusEl.textContent = 'Please fill in all required fields — including where you sell, where you ship from, your shipping area, the price-parity agreement, and your payout details.';
 statusEl.className = 'status err';
 return;
 }
