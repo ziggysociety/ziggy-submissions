@@ -69,7 +69,7 @@
       <div class="section-label">Price (NZD)</div>
       <div class="specguide">
         <strong>All prices in NZD — item only</strong>
-        <p>Enter your product price only. Shipping is charged separately at checkout and passes through to you, so don't add postage here. If your own site is in AUD, convert to NZD.</p>
+        <p><strong>List at the same price you sell it for yourself.</strong> Your ZIGGY price must match your own current retail price for this product — please don't raise it to cover postage or commission. You may round to a neat NZD figure, but not inflate. Shipping is charged separately at checkout and passes through to you in full, so don't add postage here. If your own site is in AUD, convert to NZD.</p>
       </div>
       <div class="field">
         <label>Price — item only (NZD) <span class="req">*</span></label>
@@ -77,7 +77,7 @@
       </div>
       <div class="pricebox" id="priceBox" hidden>
         <span>Your ZIGGY price (item only): <strong id="zPrice">—</strong> NZD</span>
-        <span class="pnote">Est. payout after 15% (product only): <strong id="zPayout">—</strong> NZD · shipping passes through to you</span>
+        <span class="pnote">Est. payout at the 15% founding rate: <strong id="zPayout">—</strong> NZD · if you joined after the founding round your rate is 20% · shipping passes through to you in full</span>
       </div>
 
       <div class="section-label">Sizes &amp; SKU</div>
@@ -155,8 +155,9 @@
       <div class="section-label">Shipping</div>
       <div class="specguide">
         <strong>How shipping works</strong>
-        <p>Shipping is charged separately at checkout — a flat ZIGGY rate of about $10 (local) or $15 (cross-border NZ&#8596;AU), in the customer's currency. It's not baked into your price.</p>
-        <p>Our <strong>15% commission is on your product price only</strong>; shipping passes through to you. If your real postage runs higher (heavier or bulky items), add a small buffer to your price. Always ship tracked to both NZ and Australia, and dispatch within 3 business days (or your stated made-to-order turnaround).</p>
+        <p>Shipping is charged separately at checkout — a flat ZIGGY rate of <strong>$10 domestic</strong> (within your own country) or <strong>$20 cross-border</strong> (NZ&#8596;AU), set in NZD and converted for customers shopping in another currency. It's never baked into your price.</p>
+        <p>You fund your own courier cost out of that shipping fee, and absorb the difference where your real postage runs above the flat rate — talk to us and we'll look at cheaper carriers with you. Please don't add a buffer to your price instead; your ZIGGY price must match your own retail price.</p>
+        <p>Our <strong>commission is on your product price only</strong>, never on shipping — 15% for founding sellers, 20% for sellers joining later, as recorded in Schedule A of your Seller Agreement. Always ship tracked, and dispatch within 3 business days (or your stated made-to-order turnaround).</p>
       </div>
       <div class="grid2">
         <div class="field">
@@ -171,14 +172,25 @@
           <input type="text" name="turnaround" id="turnaround" placeholder="e.g. 2–3 weeks" />
         </div>
       </div>
-      <div class="field">
-        <label>Ships from <span class="req">*</span></label>
-        <input type="text" name="shipFrom" placeholder="e.g. Auckland, NZ" required />
+      <div class="grid2">
+        <div class="field">
+          <label>Ships from <span class="req">*</span></label>
+          <input type="text" name="shipFrom" placeholder="e.g. Auckland, NZ" required />
+        </div>
+        <div class="field">
+          <label>Your shipping area <span class="req">*</span></label>
+          <select name="shippingArea" id="shippingArea" required>
+            <option value="NZ + AU">New Zealand and Australia</option>
+            <option value="NZ only">New Zealand only</option>
+            <option value="AU only">Australia only</option>
+          </select>
+          <p class="helper">This must match the shipping area agreed in Schedule A of your Seller Agreement.</p>
+        </div>
       </div>
       <div class="field">
         <label class="check">
           <input type="checkbox" name="tracked" value="Yes" required />
-          <span>I confirm every order will be sent <strong>tracked</strong>, to both <strong>NZ and Australia</strong>. <span class="req">*</span></span>
+          <span>I confirm every order will be sent <strong>tracked</strong>, everywhere in my agreed shipping area. <span class="req">*</span></span>
         </label>
       </div>
 
