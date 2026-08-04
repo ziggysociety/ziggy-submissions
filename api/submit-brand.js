@@ -8,6 +8,7 @@ const { sendEmail } = require('../lib/email');
 
 // Brands list + its custom-field IDs (from the ClickUp Brands list).
 const BRANDS_LIST_ID = '901615887011';
+const ONBOARDING_LIST_ID = '901615748957';
 const FIELD = {
   contactDetails: '538d9163-2b0b-4f3c-9009-747299495b03',
   location: 'c84471df-af5f-4c01-b151-396d3f82957d',
@@ -120,7 +121,34 @@ module.exports = async (req, res) => {
       assignees: [222060393] // Anna — assigning emails her when a brand onboards
     });
 
-    if (logo.length) {
+    // Raise the matching onboarding checklist task so the brand does not sit
+  // in Brands with nothing driving the next steps. Non-fatal if it fails.
+  try {
+    const area = f.shippingArea || 'NZ + AU';
+    const steps =
+      `Onboarding checklist for **${f.brandName}**.\n\n` +
+      `**Shipping area:** ${area}\n` +
+      `**Ships from:** ${f.shipFrom || '—'}\n\n` +
+      `- [ ] Send the Seller Agreement and confirm the commission rate\n` +
+      `- [ ] Record commission rate on the Brands task\n` +
+      `- [ ] Create the brand's shipping profile in Shopify (\$10 domestic / \$20 cross-border)\n` +
+      (area !== 'NZ + AU'
+        ? `- [ ] Exclude this brand from the other market's catalog in Shopify Markets\n`
+        : '') +
+      `- [ ] Set up their Puppet Vendors login\n` +
+      `- [ ] Confirm payout details with Wise\n` +
+      `- [ ] Spot-check price parity against their own site\n\n` +
+      `[Brand record](${task.url})`;
+    await createTask({
+      name: `Onboard ${f.brandName}`,
+      markdown: steps,
+      status: 'to do',
+      listId: ONBOARDING_LIST_ID,
+      assignees: [222060393]
+    });
+  } catch (e) { /* non-fatal */ }
+
+  if (logo.length) {
       try { await attachPhotos(task.id, logo, 'LOGO-'); } catch (e) { /* non-fatal */ }
     }
 
