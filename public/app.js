@@ -116,6 +116,7 @@
   const priceBox = document.getElementById('priceBox');
   const zPriceEl = document.getElementById('zPrice');
   const zPayoutEl = document.getElementById('zPayout');
+  const zPayout20El = document.getElementById('zPayout20');
   function toNum(v) { const m = String(v || '').replace(',', '').match(/[\d.]+/); return m ? parseFloat(m[0]) : NaN; }
   function calcPrice() {
     if (!retailEl || !priceBox) return;
@@ -124,6 +125,7 @@
     priceBox.hidden = false;
     if (zPriceEl) zPriceEl.textContent = r.toFixed(2);
     if (zPayoutEl) zPayoutEl.textContent = (r * 0.85).toFixed(2);
+    if (zPayout20El) zPayout20El.textContent = (r * 0.80).toFixed(2);
   }
   if (retailEl) {
     retailEl.addEventListener('input', calcPrice);
