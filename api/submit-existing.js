@@ -95,6 +95,7 @@ module.exports = async (req, res) => {
       row('Stock qty', f.stock) +
       row('Made to order', madeToOrder ? `Yes — turnaround: ${turnaround || 'TBC'}` : 'No') +
       row('Ships from', f.shipFrom) +
+    row('Shipping area', f.shippingArea) +
       row('Tracked shipping?', f.tracked) +
       '\n' +
       (fetched.ok
