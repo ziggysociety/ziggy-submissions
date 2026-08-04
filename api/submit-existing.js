@@ -54,6 +54,7 @@ module.exports = async (req, res) => {
     const itemPrice = money(num(f.retailPrice));
     const totalPrice = itemPrice.toFixed(2);
     const payout = (itemPrice * 0.85).toFixed(2);
+    const payout20 = (itemPrice * 0.80).toFixed(2);
 
     // 2) Shopify draft, pre-populated from the fetched data where possible.
     let shopify = null;
@@ -91,7 +92,7 @@ module.exports = async (req, res) => {
         ? `**Sizes (each its own store SKU):**\n` +
           variants.map(v => `- ${v.name} · SKU ${v.sku}${v.qty ? ` · qty ${v.qty}` : ``}`).join('\n') + '\n'
         : row('SKU', sku + (f.sku ? ' _(vendor store SKU)_' : ' _(auto)_'))) +
-      `**Price (NZD, item only):** ${totalPrice} — shipping charged separately (passes through to vendor). Est. payout after 15% commission on product: ${payout}\n` +
+      `**Price (NZD, item only):** ${totalPrice} — shipping charged separately (passes through to vendor). Est. payout: ${payout} at 15% (founding) or ${payout20} at 20% (standard)\n` +
       row('Stock qty', f.stock) +
       row('Made to order', madeToOrder ? `Yes — turnaround: ${turnaround || 'TBC'}` : 'No') +
       row('Ships from', f.shipFrom) +
