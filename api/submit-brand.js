@@ -20,7 +20,8 @@ const FIELD = {
   bankCountry: '3d1e93d3-1bfc-4d5d-b4b9-3d00845184d7',
   nzAccount: 'f11683b5-ae02-4390-a53a-85ed2819b89c',
   auBsb: '5124ca28-a7b2-422d-94c7-087b406397f1',
-  auAccount: 'd48ec1ad-fcd6-487b-858b-b364b9c3dd98'
+  auAccount: 'd48ec1ad-fcd6-487b-858b-b364b9c3dd98',
+  shippingArea: '6c9075e6-80c9-4393-bd6a-abda72544b4b'
 };
 const SHIPS_FROM_OPTION = {
   'New Zealand': '1140771b-7f50-4951-90ab-24c391c884a5',
@@ -29,6 +30,11 @@ const SHIPS_FROM_OPTION = {
 const BANK_COUNTRY_OPTION = {
   'New Zealand': 'a4c5d224-029d-4dcc-91fa-79b148fb1399',
   'Australia': 'f7b70017-4ac4-4a14-93c0-96a5530f739f'
+};
+const SHIPPING_AREA_OPTION = {
+  'NZ + AU': '24cce3f6-946f-4c7c-a35c-aaac5439feae',
+  'NZ only': '0b0b55b5-c929-4bee-99db-b40c705af791',
+  'AU only': '501d4ea6-bb9b-47a5-ad0e-ce7118be5178'
 };
 const MADE_READY_OPTION = {
   'Made to Order': '349bb0be-728d-441f-95ed-58733f4f1352',
@@ -62,6 +68,8 @@ module.exports = async (req, res) => {
       row('Instagram / socials', f.socials) +
       `\n## Shipping\n\n` +
       row('Ships from', f.shipFrom) +
+    row('Shipping area', f.shippingArea) +
+    row('Price parity agreed', (f.parity === 'Yes' || f.parity === true) ? 'Yes' : '') +
       `\n## Payout\n\n` +
       row('Account holder', f.accountHolder) +
       row('Bank country', f.bankCountry) +
@@ -96,7 +104,10 @@ module.exports = async (req, res) => {
     if (f.shipFrom && SHIPS_FROM_OPTION[f.shipFrom]) {
       customFields.push({ id: FIELD.shipsFrom, value: SHIPS_FROM_OPTION[f.shipFrom] });
     }
-    if (f.bankCountry && BANK_COUNTRY_OPTION[f.bankCountry]) {
+    if (f.shippingArea && SHIPPING_AREA_OPTION[f.shippingArea]) {
+    customFields.push({ id: FIELD.shippingArea, value: SHIPPING_AREA_OPTION[f.shippingArea] });
+  }
+  if (f.bankCountry && BANK_COUNTRY_OPTION[f.bankCountry]) {
       customFields.push({ id: FIELD.bankCountry, value: BANK_COUNTRY_OPTION[f.bankCountry] });
     }
 
