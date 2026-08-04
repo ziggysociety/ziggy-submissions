@@ -38,6 +38,7 @@ module.exports = async (req, res) => {
     const itemPrice = money(num(f.retailPrice));
     const totalPrice = itemPrice.toFixed(2);
     const payout = (itemPrice * 0.85).toFixed(2);
+    const payout20 = (itemPrice * 0.80).toFixed(2);
 
     // SKU is mandatory — if the vendor doesn't have one, generate it for them.
     const skuProvided = Boolean(f.sku);
@@ -85,7 +86,7 @@ module.exports = async (req, res) => {
       row('Description', f.description) +
       row('Materials/fabric', f.materials) +
       row('Colours', f.colours) +
-      `**Price (NZD, item only):** ${totalPrice} — shipping charged separately (passes through to vendor). Est. payout after 15% commission on product: ${payout}\n` +
+      `**Price (NZD, item only):** ${totalPrice} — shipping charged separately (passes through to vendor). Est. payout: ${payout} at 15% (founding) or ${payout20} at 20% (standard)\n` +
       row('Stock qty', f.stock) +
       (variants.length
         ? `**Sizes / variants (each its own SKU):**\n` +
