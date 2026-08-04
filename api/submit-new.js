@@ -95,6 +95,7 @@ module.exports = async (req, res) => {
       row('Ethical/sustainability', f.ethics) +
       '\n' +
       row('Ships from', f.shipFrom) +
+    row('Shipping area', f.shippingArea) +
       row('Tracked shipping?', f.tracked) +
       '\n' +
       (shopify && shopify.adminUrl ? `**Shopify draft:** ${shopify.adminUrl}\n` : '') +
