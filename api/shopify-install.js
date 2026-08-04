@@ -6,7 +6,7 @@ const crypto = require('crypto');
 
 module.exports = async (req, res) => {
   const clientId = process.env.SHOPIFY_CLIENT_ID;
-  const scopes = process.env.SHOPIFY_SCOPES || 'write_products,read_products';
+  const scopes = process.env.SHOPIFY_SCOPES || 'write_products,read_products,read_locations,write_inventory';
 
   let shop = (req.query && req.query.shop) || process.env.SHOPIFY_STORE_DOMAIN || '';
   if (!clientId) { res.status(500).send('SHOPIFY_CLIENT_ID is not set in the environment.'); return; }
