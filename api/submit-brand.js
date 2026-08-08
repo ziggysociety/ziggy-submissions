@@ -130,8 +130,8 @@ module.exports = async (req, res) => {
       `**Shipping area:** ${area}\n` +
       `**Ships from:** ${f.shipFrom || '—'}\n\n` +
       `- [ ] Send the Seller Agreement and confirm the commission rate\n` +
-      `- [ ] Record commission rate on the Brands task\n` +
-      `- [ ] Create the brand's shipping profile in Shopify (\$10 domestic / \$20 cross-border)\n` +
+      `- [ ] Record the commission rate and the shipping band (Standard if a typical single item ships under 1kg, Heavy if over) on the Brands task and in Schedule A\n` +
+      `- [ ] Create the brand's shipping profile in Shopify (\$10 domestic / \$25 cross-Tasman for a Standard brand, or $20 domestic / $35 cross-Tasman for a Heavy brand. One profile named for the brand, both zones, rate name exactly Standard on each, and check the cross-border zone uses that country's own currency)\n` +
       (area !== 'NZ + AU'
         ? `- [ ] Exclude this brand from the other market's catalog in Shopify Markets\n`
         : '') +
