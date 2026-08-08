@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
       row('ZIGGY price (NZD, item only)', priceNum) +
       '\n' +
       `**Source:** Syncio / Shopify store — **import this product from Syncio** and set the NZD price above. No Shopify draft was created by the form (Syncio brings the product in).\n` +
-      `_Shipping is charged separately (~$10 local / ~$15 cross-border); 15% commission on product only. SKU comes through Syncio._\n` +
+      `_Shipping is charged separately and passes through to the vendor in full — Standard band $10 domestic / $25 cross-Tasman, Heavy band $20 domestic / $35 cross-Tasman, whichever is recorded in this brand's Schedule A. Commission is on the product price only: 15% founding sellers, 20% sellers joining later. SKU comes through Syncio._\n` +
       `\n---\n_Submitted via the ZIGGY Syncio product form._`;
 
     const task = await createTask({
